@@ -1,8 +1,76 @@
 Dependencies for Project 'Fileware', Target 'Fileware': (DO NOT MODIFY !)
 CompilerVersion: 6190000::V6.19::ARMCLANG
-F (startup_stm32g431xx.s)(0x661CC297)(--target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -masm=auto  -Wa,armasm,--diag_suppress=A1950W -c-gdwarf-4-I./RTE/_Fileware-ID:/keil/Arm/Packs/ARM/CMSIS-DSP/1.14.2/Include-ID:/keil/Arm/Packs/ARM/CMSIS-DSP/1.14.2/PrivateInclude-ID:/keil/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-ID:/keil/Arm/Packs/Keil/STM32G4xx_DFP/1.5.0/Drivers/CMSIS/Device/ST/STM32G4xx/Include-Wa,armasm,--pd,"__UVISION_VERSION SETA 538" -Wa,armasm,--pd,"_RTE_ SETA 1" -Wa,armasm,--pd,"STM32G431xx SETA 1" -Wa,armasm,--pd,"_RTE_ SETA 1"-o fileware/startup_stm32g431xx.o)
-F (../Core/Src/main.c)(0x661EA13B)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O3 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32G4xx_HAL_Driver/Inc -I ../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I ../Drivers/CMSIS/Include -I ../USB_Device/App -I ../USB_Device/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_Fileware-ID:/keil/Arm/Packs/ARM/CMSIS-DSP/1.14.2/Include-ID:/keil/Arm/Packs/ARM/CMSIS-DSP/1.14.2/PrivateInclude-ID:/keil/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-ID:/keil/Arm/Packs/Keil/STM32G4xx_DFP/1.5.0/Drivers/CMSIS/Device/ST/STM32G4xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32G431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32G431xx -DARM_MATH_CM4 -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING-o fileware/main.o -MD)
-I (..\Core\Inc\main.h)(0x661E98DC)
+F (startup_stm32g431xx.s)(0x661FD854)(--target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -masm=auto  -Wa,armasm,--diag_suppress=A1950W -c-gdwarf-4-I./RTE/_Fileware-ID:/keil/Arm/Packs/ARM/CMSIS-DSP/1.14.2/Include-ID:/keil/Arm/Packs/ARM/CMSIS-DSP/1.14.2/PrivateInclude-ID:/keil/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-ID:/keil/Arm/Packs/Keil/STM32G4xx_DFP/1.5.0/Drivers/CMSIS/Device/ST/STM32G4xx/Include-Wa,armasm,--pd,"__UVISION_VERSION SETA 538" -Wa,armasm,--pd,"_RTE_ SETA 1" -Wa,armasm,--pd,"STM32G431xx SETA 1" -Wa,armasm,--pd,"_RTE_ SETA 1"-o fileware/startup_stm32g431xx.o)
+F (..\Core\Src\FocCtr.c)(0x661FF762)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O3 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32G4xx_HAL_Driver/Inc -I ../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I ../Drivers/CMSIS/Include -I ../USB_Device/App -I ../USB_Device/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_Fileware-ID:/keil/Arm/Packs/ARM/CMSIS-DSP/1.14.2/Include-ID:/keil/Arm/Packs/ARM/CMSIS-DSP/1.14.2/PrivateInclude-ID:/keil/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-ID:/keil/Arm/Packs/Keil/STM32G4xx_DFP/1.5.0/Drivers/CMSIS/Device/ST/STM32G4xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32G431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32G431xx -DARM_MATH_CM4 -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING-o fileware/focctr.o -MD)
+I (..\Core\Src\FocCtr.h)(0x661FF5ED)
+I (..\Core\Inc\main.h)(0x661FF136)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal.h)(0x6612AD64)
+I (..\Core\Inc\stm32g4xx_hal_conf.h)(0x661CC135)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_rcc.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_def.h)(0x6612AD64)
+I (..\Drivers\CMSIS\Device\ST\STM32G4xx\Include\stm32g4xx.h)(0x6612AD64)
+I (..\Drivers\CMSIS\Device\ST\STM32G4xx\Include\stm32g431xx.h)(0x6612AD64)
+I (..\Drivers\CMSIS\Include\core_cm4.h)(0x6612AD41)
+I (D:\keil\ARM\ARMCLANG\include\stdint.h)(0x63884908)
+I (..\Drivers\CMSIS\Include\cmsis_version.h)(0x6612AD41)
+I (..\Drivers\CMSIS\Include\cmsis_compiler.h)(0x6612AD41)
+I (..\Drivers\CMSIS\Include\cmsis_armclang.h)(0x6612AD41)
+I (D:\keil\ARM\ARMCLANG\include\arm_compat.h)(0x63884908)
+I (D:\keil\ARM\ARMCLANG\include\arm_acle.h)(0x63884908)
+I (..\Drivers\CMSIS\Include\mpu_armv7.h)(0x6612AD41)
+I (..\Drivers\CMSIS\Device\ST\STM32G4xx\Include\system_stm32g4xx.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\Legacy\stm32_hal_legacy.h)(0x6612AD64)
+I (D:\keil\ARM\ARMCLANG\include\stddef.h)(0x63884908)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_rcc_ex.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_gpio.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_gpio_ex.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_dma.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_dma_ex.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_cortex.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_adc.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_ll_adc.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_adc_ex.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_exti.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_flash.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_flash_ex.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_flash_ramfunc.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_pcd.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_ll_usb.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_pcd_ex.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_pwr.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_pwr_ex.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_spi.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_spi_ex.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_tim.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_tim_ex.h)(0x6612AD64)
+I (..\Core\Src\pll.h)(0x661FE335)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\arm_math.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\arm_math_types.h)(0x6364655A)
+I (D:\keil\ARM\ARMCLANG\include\string.h)(0x63884908)
+I (D:\keil\ARM\ARMCLANG\include\math.h)(0x63884908)
+I (D:\keil\ARM\ARMCLANG\include\float.h)(0x63884908)
+I (D:\keil\ARM\ARMCLANG\include\limits.h)(0x63884908)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\arm_math_memory.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\none.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\utils.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\basic_math_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\interpolation_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\bayes_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\statistics_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\fast_math_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\matrix_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\complex_math_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\controller_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\support_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\distance_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\svm_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\svm_defines.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\transform_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\filtering_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\quaternion_math_functions.h)(0x6364655A)
+I (D:\keil\ARM\ARMCLANG\include\stdbool.h)(0x63884908)
+F (../Core/Src/main.c)(0x661FF762)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O3 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32G4xx_HAL_Driver/Inc -I ../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I ../Drivers/CMSIS/Include -I ../USB_Device/App -I ../USB_Device/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_Fileware-ID:/keil/Arm/Packs/ARM/CMSIS-DSP/1.14.2/Include-ID:/keil/Arm/Packs/ARM/CMSIS-DSP/1.14.2/PrivateInclude-ID:/keil/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-ID:/keil/Arm/Packs/Keil/STM32G4xx_DFP/1.5.0/Drivers/CMSIS/Device/ST/STM32G4xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32G431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32G431xx -DARM_MATH_CM4 -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING-o fileware/main.o -MD)
+I (..\Core\Inc\main.h)(0x661FF136)
 I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal.h)(0x6612AD64)
 I (..\Core\Inc\stm32g4xx_hal_conf.h)(0x661CC135)
 I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_rcc.h)(0x6612AD64)
@@ -71,8 +139,11 @@ I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\svm_defines.h)(0x6364655A)
 I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\transform_functions.h)(0x6364655A)
 I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\filtering_functions.h)(0x6364655A)
 I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\quaternion_math_functions.h)(0x6364655A)
+I (D:\keil\ARM\ARMCLANG\include\stdbool.h)(0x63884908)
+I (..\Core\Src\pll.h)(0x661FE335)
+I (..\Core\Src\FocCtr.h)(0x661FF5ED)
 F (../Core/Src/stm32g4xx_it.c)(0x661C08FA)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O3 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32G4xx_HAL_Driver/Inc -I ../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I ../Drivers/CMSIS/Include -I ../USB_Device/App -I ../USB_Device/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_Fileware-ID:/keil/Arm/Packs/ARM/CMSIS-DSP/1.14.2/Include-ID:/keil/Arm/Packs/ARM/CMSIS-DSP/1.14.2/PrivateInclude-ID:/keil/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-ID:/keil/Arm/Packs/Keil/STM32G4xx_DFP/1.5.0/Drivers/CMSIS/Device/ST/STM32G4xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32G431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32G431xx -DARM_MATH_CM4 -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING-o fileware/stm32g4xx_it.o -MD)
-I (..\Core\Inc\main.h)(0x661E98DC)
+I (..\Core\Inc\main.h)(0x661FF136)
 I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal.h)(0x6612AD64)
 I (..\Core\Inc\stm32g4xx_hal_conf.h)(0x661CC135)
 I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_rcc.h)(0x6612AD64)
@@ -114,7 +185,7 @@ I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_tim.h)(0x6612AD64)
 I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_tim_ex.h)(0x6612AD64)
 I (..\Core\Inc\stm32g4xx_it.h)(0x661C08FA)
 F (../Core/Src/stm32g4xx_hal_msp.c)(0x661CC135)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O3 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32G4xx_HAL_Driver/Inc -I ../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I ../Drivers/CMSIS/Include -I ../USB_Device/App -I ../USB_Device/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_Fileware-ID:/keil/Arm/Packs/ARM/CMSIS-DSP/1.14.2/Include-ID:/keil/Arm/Packs/ARM/CMSIS-DSP/1.14.2/PrivateInclude-ID:/keil/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-ID:/keil/Arm/Packs/Keil/STM32G4xx_DFP/1.5.0/Drivers/CMSIS/Device/ST/STM32G4xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32G431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32G431xx -DARM_MATH_CM4 -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING-o fileware/stm32g4xx_hal_msp.o -MD)
-I (..\Core\Inc\main.h)(0x661E98DC)
+I (..\Core\Inc\main.h)(0x661FF136)
 I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal.h)(0x6612AD64)
 I (..\Core\Inc\stm32g4xx_hal_conf.h)(0x661CC135)
 I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_rcc.h)(0x6612AD64)
@@ -154,6 +225,73 @@ I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_spi.h)(0x6612AD64)
 I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_spi_ex.h)(0x6612AD64)
 I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_tim.h)(0x6612AD64)
 I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_tim_ex.h)(0x6612AD64)
+F (..\Core\Src\pll.c)(0x661FDF97)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O3 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32G4xx_HAL_Driver/Inc -I ../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I ../Drivers/CMSIS/Include -I ../USB_Device/App -I ../USB_Device/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_Fileware-ID:/keil/Arm/Packs/ARM/CMSIS-DSP/1.14.2/Include-ID:/keil/Arm/Packs/ARM/CMSIS-DSP/1.14.2/PrivateInclude-ID:/keil/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-ID:/keil/Arm/Packs/Keil/STM32G4xx_DFP/1.5.0/Drivers/CMSIS/Device/ST/STM32G4xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32G431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32G431xx -DARM_MATH_CM4 -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING-o fileware/pll.o -MD)
+I (..\Core\Src\pll.h)(0x661FE335)
+I (..\Core\Inc\main.h)(0x661FF136)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal.h)(0x6612AD64)
+I (..\Core\Inc\stm32g4xx_hal_conf.h)(0x661CC135)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_rcc.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_def.h)(0x6612AD64)
+I (..\Drivers\CMSIS\Device\ST\STM32G4xx\Include\stm32g4xx.h)(0x6612AD64)
+I (..\Drivers\CMSIS\Device\ST\STM32G4xx\Include\stm32g431xx.h)(0x6612AD64)
+I (..\Drivers\CMSIS\Include\core_cm4.h)(0x6612AD41)
+I (D:\keil\ARM\ARMCLANG\include\stdint.h)(0x63884908)
+I (..\Drivers\CMSIS\Include\cmsis_version.h)(0x6612AD41)
+I (..\Drivers\CMSIS\Include\cmsis_compiler.h)(0x6612AD41)
+I (..\Drivers\CMSIS\Include\cmsis_armclang.h)(0x6612AD41)
+I (D:\keil\ARM\ARMCLANG\include\arm_compat.h)(0x63884908)
+I (D:\keil\ARM\ARMCLANG\include\arm_acle.h)(0x63884908)
+I (..\Drivers\CMSIS\Include\mpu_armv7.h)(0x6612AD41)
+I (..\Drivers\CMSIS\Device\ST\STM32G4xx\Include\system_stm32g4xx.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\Legacy\stm32_hal_legacy.h)(0x6612AD64)
+I (D:\keil\ARM\ARMCLANG\include\stddef.h)(0x63884908)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_rcc_ex.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_gpio.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_gpio_ex.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_dma.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_dma_ex.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_cortex.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_adc.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_ll_adc.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_adc_ex.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_exti.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_flash.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_flash_ex.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_flash_ramfunc.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_pcd.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_ll_usb.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_pcd_ex.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_pwr.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_pwr_ex.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_spi.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_spi_ex.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_tim.h)(0x6612AD64)
+I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_tim_ex.h)(0x6612AD64)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\arm_math.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\arm_math_types.h)(0x6364655A)
+I (D:\keil\ARM\ARMCLANG\include\string.h)(0x63884908)
+I (D:\keil\ARM\ARMCLANG\include\math.h)(0x63884908)
+I (D:\keil\ARM\ARMCLANG\include\float.h)(0x63884908)
+I (D:\keil\ARM\ARMCLANG\include\limits.h)(0x63884908)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\arm_math_memory.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\none.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\utils.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\basic_math_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\interpolation_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\bayes_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\statistics_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\fast_math_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\matrix_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\complex_math_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\controller_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\support_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\distance_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\svm_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\svm_defines.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\transform_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\filtering_functions.h)(0x6364655A)
+I (D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\quaternion_math_functions.h)(0x6364655A)
+I (D:\keil\ARM\ARMCLANG\include\stdbool.h)(0x63884908)
 F (../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_fdcan.c)(0x6612AD64)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O3 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Core/Inc -I ../Drivers/STM32G4xx_HAL_Driver/Inc -I ../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I ../Drivers/CMSIS/Include -I ../USB_Device/App -I ../USB_Device/Target -I ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc-I./RTE/_Fileware-ID:/keil/Arm/Packs/ARM/CMSIS-DSP/1.14.2/Include-ID:/keil/Arm/Packs/ARM/CMSIS-DSP/1.14.2/PrivateInclude-ID:/keil/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include-ID:/keil/Arm/Packs/Keil/STM32G4xx_DFP/1.5.0/Drivers/CMSIS/Device/ST/STM32G4xx/Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32G431xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32G431xx -DARM_MATH_CM4 -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING-o fileware/stm32g4xx_hal_fdcan.o -MD)
 I (..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal.h)(0x6612AD64)
 I (..\Core\Inc\stm32g4xx_hal_conf.h)(0x661CC135)

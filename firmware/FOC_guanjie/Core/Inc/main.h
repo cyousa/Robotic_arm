@@ -97,6 +97,7 @@ void Error_Handler(void);
 #define C_H_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
+extern ADC_HandleTypeDef hadc1;
 struct send_data{
 	float DATA[9];
 	uint8_t tail[4];

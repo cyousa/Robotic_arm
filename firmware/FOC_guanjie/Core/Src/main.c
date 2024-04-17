@@ -23,12 +23,12 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "arm_math.h"
+#include "stdbool.h"
+#include "pll.h"
+#include "FocCtr.h"
 
-#define AS_CS_H HAL_GPIO_WritePin(GPIOB, AS_CS_Pin, 1);
-#define AS_CS_L HAL_GPIO_WritePin(GPIOB, AS_CS_Pin, 0);
-#define squrt3 1.73205f
-#define PWM_Max 4200
-#define K1 0.0003834952f
+
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -39,189 +39,17 @@ extern uint8_t CDC_Transmit_FS(uint8_t* Buf, uint16_t Len);
 
 uint8_t isready=0;
 void Get_Aagel();
-float Ksp;
-float Vbus=16;
 
-float cos_value,sin_value;//一次PWM周期只算一次
-
-float Ualpha,Ubata;
-float Iq_Target=0.01,Id_Target;
-float Id_ref ,Iq_ref;
-PID Iq_current;
-float Uq=0,Ud=0.8; 
-
-float Ia,Ib,Ic;
-
-float Angel_Now=0,Angle_Last=0;
-int angel_chazhi,laps;
-
-float speed,speed_last;
-uint16_t SPI_recive_data,SPI_send_data,SPI_recive_data_last,Angel_begin;
-
-float Iq_current_loop()
-{
-		Iq_current.error=Iq_Target-Iq_ref;
-		Iq_current.error_sum+=Iq_current.error;
-		if(Iq_current.error_sum>5)
-		{
-				Iq_current.error_sum=5;
-		}
-		else if(Iq_current.error_sum<-5)
-		{
-				Iq_current.error_sum=-5;
-		}
-	  Iq_current.out = Iq_current.error * Iq_current.P + Iq_current.error_sum * Iq_current.I;
-		return Iq_current.out;
-}
-
-
-void Park_change_Contrary()//Park逆变换
-{
-
-	if(isready==1)
-	{
-	Angel_Now=-K1*(SPI_recive_data-Angel_begin)*14.0f-87.9645943f*laps;
-	}
-	speed=Angel_Now-Angle_Last;
-	speed=0.7f*speed+0.3*speed_last;
-	if(speed>10||speed<-10)
-	{
-		speed=speed_last;
-	}
-	speed_last=speed;
-	Angle_Last=Angel_Now;
-	
-	cos_value=arm_cos_f32(Angel_Now);
-	sin_value=arm_sin_f32(Angel_Now);
-	Ksp=7274.613f/Vbus;
-	
-	Ualpha=Ud*cos_value-Uq*sin_value;
-	Ubata= Uq*cos_value+Ud*sin_value;
-	
-}
-
-
-void Park_change(float I_alpha,float I_beta)//Park变换
-{
-	
-		Id_ref= I_alpha*cos_value  + I_beta*sin_value;
-		Iq_ref= -I_alpha*sin_value + I_beta*cos_value;
-		my_data.DATA[1] = Id_ref;
-		my_data.DATA[2] = Iq_ref;
-
-	
-}
-
-
-float I_ref_ahp,I_ref_beta;
-void Klark_change()//克拉克变换
-{
-	I_ref_ahp=Ia-0.5f*(Ib+Ic);
-	I_ref_beta=0.5774f*(Ib - Ic);	
-	
-
-	
-	Park_change(I_ref_ahp,I_ref_beta);
-
-}
-
-
-float ta,tb,tc;
-float X,Y,Z;
-uint8_t sector;
-void sector_judg()
-{
-	float u1,u2,u3;
-	float t0,t1,t2,t3,t4,t5,t6,t7;
-	u1=Ubata;
-	u2=squrt3*Ualpha/2.f-Ubata/2.f;
-	u3=-squrt3*Ualpha/2.f-Ubata/2.f;
-		
-	sector=(u1>0.0)+((u2>0.0)<<1)+((u3>0.0)<<2);	
-	 X=Ksp*Ubata;
-	 Y=Ksp*(-(squrt3/2.0f)*Ualpha-0.5f*Ubata);
-	 Z=Ksp*((squrt3/2.0f)*Ualpha-0.5f*Ubata);
-		
-
-	if(sector==3)//第1扇区
-	{
-			t4=Z;
-			t6=X;		
-			t7=(PWM_Max-t4-t6)/2;
-			ta=t4+t6+t7;
-			tb=t6+t7;
-			tc=t7;
-	}
-	else if(sector==1)//第2扇区
-	{	
-			t2=-Z;
-			t6=-Y;
-			t7=(PWM_Max-t2-t6)/2;
-			ta=t6+t7;
-			tb=t2+t6+t7;
-			tc=t7;
-	}
-	else if(sector==5)//第3扇区
-	{	
-			t2=X;
-			t3=Y;		
-			t7=(PWM_Max-t2-t3)/2;
-			ta=t7;
-			tb=t2+t3+t7;
-			tc=t3+t7;
-	}
-	else if(sector==4)//第4扇区
-	{	
-			t1=-X;
-			t3=-Z;	
-			t7=(PWM_Max-t1-t3)/2;
-			ta=t7;
-			tb=t3+t7;
-			tc=t1+t3+t7;
-	}
-	else if(sector==6)//第5扇区
-	{	
-			t1=Y;
-			t5=Z;	
-			t7=(PWM_Max-t1-t5)/2;
-			ta=t5+t7;
-			tb=t7;
-			tc=t1+t5+t7;
-	}
-	else if(sector==2)//第6扇区
-	{	
-			t4=-Y;
-			t5=-X;	
-			t7=(PWM_Max-t4-t5)/2;
-			ta=t4+t5+t7;
-			tb=t7;
-			tc=t5+t7;
-	}
-	else 
-	{
-		ta=0;
-		tb=0;
-		tc=0;
-	
-	}
-//	my_data.DATA[3]   =ta;
-//	my_data.DATA[4]   =tb;
-//	my_data.DATA[5]   =tc;
-
-}
 void SVPWM()
 {
-	Get_Aagel();
-	Klark_change();
-//	Angel_Now+=0.05f;
+
+//	Angel_Now+=0.005f;
 //	if(Angel_Now>6.28)
 //	{
 //		Angel_Now=0;
-//	}
-	Park_change_Contrary();
-	sector_judg();
-
-
+//	}	
+	Park_change_Contrary();//反Park变换
+	sector_judg();//扇区判断
 	TIM1->CCR1 =  (uint16_t)ta;
 	TIM1->CCR2 =  (uint16_t)tb;
 	TIM1->CCR3 =  (uint16_t)tc;
@@ -249,7 +77,9 @@ TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim6;
 
 /* USER CODE BEGIN PV */
-uint16_t SPI_recive_data,SPI_send_data;
+uint16_t SPI_recive_data,SPI_send_data,Angel_begin;
+
+
 void Get_Aagel()	
 {
 	SPI_send_data|=0x3fff;	
@@ -263,28 +93,75 @@ void Get_Aagel()
 		Angel_begin=SPI_recive_data;
 		
 	}
-	angel_chazhi=SPI_recive_data-SPI_recive_data_last;
+
 	
-	if(abs(angel_chazhi)>13107) laps += (angel_chazhi>0)?-1:1;
-	SPI_recive_data_last=SPI_recive_data;
 
 }
-
+uint8_t times2;
  void HAL_ADCEx_InjectedConvCpltCallback(ADC_HandleTypeDef* hadc)
  {
 
 		if(hadc == &hadc1)
 		{
-				my_data.DATA[5]   =hadc1.Instance->JDR4;
-				my_data.DATA[6]   =hadc1.Instance->JDR1;
-	      my_data.DATA[7]   =hadc1.Instance->JDR2;
-				my_data.DATA[8]   =hadc1.Instance->JDR3;
+				HAL_GPIO_WritePin(RGB1_GPIO_Port,RGB1_Pin,GPIO_PIN_SET);
 			
-			 __HAL_ADC_ENABLE_IT(&hadc1,ADC_IT_JEOC);
-			Ia=(hadc1.Instance->JDR1*0.0008f-1.65f)*0.227f;
-			Ib=(hadc1.Instance->JDR2*0.0008f-1.65f)*0.227f;
-			Ic=(hadc1.Instance->JDR3*0.0008f-1.65f)*0.227f;
-			Klark_change();
+			
+				if(isready==1)
+				{
+					Get_Aagel();
+//					Angel_Now=-K1*(SPI_recive_data-Angel_begin)*14.0f-87.9645943f*laps;
+					int16_t enc = SPI_recive_data - Angel_begin;
+					if(enc<0) enc += 16384;					
+					//Angel_Now = -K1*enc*14.f;
+					
+					MeasurePosVel(enc,&pos_vel);//Odrive计算当前角度以及速度
+
+				}
+				
+
+				Klark_change();
+			
+				if(isready==1)
+				{
+					times2++;
+					
+					Uq=Iq_current_loop();
+					Ud=Id_current_loop();
+					float limit = Vbus *(2.f/3.f);
+					if(Uq>limit) 					Uq = limit;
+					else if(Uq < -limit) 	Uq = -limit;				
+					if(Ud>limit) 					Ud = limit;
+					else if(Ud < -limit) 	Ud = -limit;
+					if(times2==2)
+					{
+						
+					Iq_Target=speed_loop();	
+						if(Iq_Target>4)
+						{
+							Iq_Target=4;
+						}
+						else if(Iq_Target<-4)
+						{
+							Iq_Target=-4;
+						}
+					times2=0;
+					}
+					
+				}
+				
+				SVPWM();
+				
+				my_data.DATA[0]   = pos_vel.vel;
+				my_data.DATA[1]   = Iq_Target;
+				my_data.DATA[2]   = Ud;
+				my_data.DATA[3]   = Uq;
+				my_data.DATA[4]   = 0;
+				my_data.DATA[5]   = 0;
+				my_data.DATA[6]   = 0;
+	      my_data.DATA[7]   = 0;
+				my_data.DATA[8]   = 0;	
+				CDC_Transmit_FS((uint8_t*)&my_data, sizeof(my_data));
+				HAL_GPIO_WritePin(RGB1_GPIO_Port,RGB1_Pin,GPIO_PIN_RESET);
 		}
    
  
@@ -312,28 +189,18 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)//10KHz 0.0001ms
 {   
 	if(htim == &htim6)  //判断中断是否来自于定时器1
    {
-			SVPWM();
-		 if(isready==1)
-		 {
-				 times200us++;
-				 if(times200us==2)
-				 {
-						Uq=Iq_current_loop();
-						my_data.DATA[3]   =Uq;
-						
-						times200us=0;
-				 }
-		 }
-		 my_data.DATA[4]   = Iq_current.error;
-//			__HAL_TIM_CLEAR_FLAG(&htim6,TIM_FLAG_UPDATE);
+			__HAL_TIM_CLEAR_FLAG(&htim6,TIM_FLAG_UPDATE);
    }
 }
 
 
 void Pid_Param_init()
 {
-	Iq_current.P=0.194;
-	Iq_current.I=0.366;
+	Iq_current.P=0.78;
+	Iq_current.I=0.0907;
+	
+	Speed_ctl.P=-0.5;
+	Speed_ctl.I=-0.01;
 }
 
 /* USER CODE END 0 */
@@ -399,18 +266,18 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-//    /* USER CODE END WHILE */
-	if(isready==0)
-	{
-		
-		HAL_Delay(1000);
-		isready=1;
-		Ud=0 ;
-		//Uq=0;
-		
-	}
+    /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
-	 CDC_Transmit_FS((uint8_t*)&my_data, sizeof(my_data));
+		if(isready==0)
+		{
+			HAL_Delay(1000);
+			Get_Aagel();
+			Ud=0;
+			Uq=0.0f;
+			isready=1;
+			
+		}
 //		HAL_Delay(500);
 //		HAL_GPIO_WritePin(GPIOA, RGB2_Pin|RGB1_Pin, GPIO_PIN_RESET);
 //		HAL_Delay(500);
@@ -595,7 +462,7 @@ static void MX_SPI2_Init(void)
   hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi2.Init.CLKPhase = SPI_PHASE_2EDGE;
   hspi2.Init.NSS = SPI_NSS_SOFT;
-  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
+  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_16;
   hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -675,7 +542,7 @@ static void MX_TIM1_Init(void)
   sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
   sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
   sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
-  sBreakDeadTimeConfig.DeadTime = 55;
+  sBreakDeadTimeConfig.DeadTime = 50;
   sBreakDeadTimeConfig.BreakState = TIM_BREAK_DISABLE;
   sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
   sBreakDeadTimeConfig.BreakFilter = 0;
@@ -707,16 +574,16 @@ static void MX_TIM6_Init(void)
   /* USER CODE BEGIN TIM6_Init 0 */
 
   /* USER CODE END TIM6_Init 0 */
- 
+
   TIM_MasterConfigTypeDef sMasterConfig = {0};
 
   /* USER CODE BEGIN TIM6_Init 1 */
 
   /* USER CODE END TIM6_Init 1 */
   htim6.Instance = TIM6;
-  htim6.Init.Prescaler = 0;
+  htim6.Init.Prescaler = 168;
   htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim6.Init.Period = 16800;
+  htim6.Init.Period = 1000;
   htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim6) != HAL_OK)
   {
