@@ -46,7 +46,15 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
+struct send_data{
+	float DATA[9];
+	uint8_t tail[4];
 
+};
+
+void Set_DAC_Value(short PWM_A,short PWM_B);
+extern uint16_t SPI_recive_data,SPI_recive_data_begin;
+extern struct send_data my_data;
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/

@@ -3,6 +3,8 @@
 "foc_bjmotor\main.o"
 "foc_bjmotor\stm32g4xx_it.o"
 "foc_bjmotor\stm32g4xx_hal_msp.o"
+"foc_bjmotor\focctr.o"
+"foc_bjmotor\pll.o"
 "foc_bjmotor\usbd_conf.o"
 "foc_bjmotor\usb_device.o"
 "foc_bjmotor\usbd_desc.o"

@@ -23,6 +23,9 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "arm_math.h"
+#include "stdbool.h"
+#include "./FocCtr.h"
+#include "./pll.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -30,6 +33,7 @@
 
 #define AS_CS_H HAL_GPIO_WritePin(GPIOB, AS_CS_Pin, 1);
 #define AS_CS_L HAL_GPIO_WritePin(GPIOB, AS_CS_Pin, 0);
+
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -58,6 +62,8 @@ TIM_HandleTypeDef htim6;
 
 /* USER CODE BEGIN PV */
 
+
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -71,15 +77,9 @@ static void MX_SPI2_Init(void);
 static void MX_SPI3_Init(void);
 static void MX_TIM6_Init(void);
 /* USER CODE BEGIN PFP */
-uint8_t isready;
+
 struct send_data my_data;
 extern uint8_t CDC_Transmit_FS(uint8_t* Buf, uint16_t Len);
-struct send_data{
-	float DATA[10];
-	uint8_t tail[4];
-
-
-};
 
 void send(char *dat,uint32_t len)
 {
@@ -89,10 +89,9 @@ void send(char *dat,uint32_t len)
   
 }
 
-uint16_t SPI_recive_data,SPI_recive_data_last;
-int angel_chazhi,laps;
+uint16_t SPI_recive_data;
+
 uint16_t SPI_send_data,SPI_recive_data_begin;
-float Angle_Now=0.f,Angle_Last=0.f;
 
 void Get_Aagel()	
 {
@@ -106,11 +105,6 @@ void Get_Aagel()
 		SPI_recive_data_begin=SPI_recive_data;
 		
 	}
-	angel_chazhi=SPI_recive_data-SPI_recive_data_last;
-	
-	if(abs(angel_chazhi)>13107) laps += (angel_chazhi>0)?-1:1;
-	SPI_recive_data_last=SPI_recive_data;
-	//SPI_recive_data=laps*16384+SPI_recive_data_last;
 
 }
 
@@ -119,113 +113,53 @@ void Get_Aagel()
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void sector_judg();
 
-float V_alpha,V_beta;
 
-float uq=0,ud=5;
-uint8_t Now_sector;
-uint32_t T=4096.f;
-float Vbus=14.0f;
-float K;
-short PWM_A,PWM_B;
-float K1;
-float speed;
-float cos_zeta,sin_zeta;
-float speed_last;
-uint8_t speed_times=0;
-void Park_contrary_change()
-{
+uint8_t Times2,times4;
+int Times20;
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{   
+	if(htim == &htim6)  //判断中断是否来自于定时器1
+   {
+		 Times2++;
+		 times4++;
+		 Times20++;
+			HAL_GPIO_TogglePin(GPIOA,RGB3_Pin);  //翻转LED灯的状态
+		 
+			Get_Aagel();
 
-	//Angle_Now-=0.02f;
-	if(isready==1)
-	{
-		K1=2.0f*PI/16384.0f;
-		Angle_Now=K1*(SPI_recive_data-SPI_recive_data_begin)*50.0f+314.159265f*laps;
-	}
-	cos_zeta=arm_cos_f32(Angle_Now);
-	sin_zeta=arm_sin_f32(Angle_Now);
-	
-	speed=Angle_Now-Angle_Last;
-	speed=0.7f*speed+0.3*speed_last;
-	if(speed>10||speed<-10)
-	{
-		speed=speed_last;
-	}
-		speed_last=speed;
-	Angle_Last=Angle_Now;
-	
-	V_alpha=ud*cos_zeta - uq*sin_zeta;
-	V_beta =uq*cos_zeta + ud*sin_zeta;
-	
+		  SVPWM();
+		 if(isready==1)
+		 {
+				speed_loop();
+		 }
+		  if(times4==4&&isready==1)
+			{
+					Position_loop();
+					times4=0;
+			}
+			
+		 if(Times20==60000) 
+		 {
+			
+			 
+			 Target_angel+=2;
+			 Times20=0;
 
-	my_data.DATA[0]=V_alpha;
-	my_data.DATA[1]=V_beta;	
-	my_data.DATA[2]=Angle_Now;
-	my_data.DATA[3]=SPI_recive_data;
+		 }
+		 
+		my_data.DATA[0]=pos_vel.pos_in_one;
+		my_data.DATA[1]=pos_vel.radio;	
+		my_data.DATA[2]=pos_vel.vel;
+		my_data.DATA[3]=pos_vel.pos;
+
+		CDC_Transmit_FS((char *)&my_data, sizeof(my_data));
+   }
+	 
 }
-void sector_judg()
-{
-	
-	Now_sector=1+((V_alpha>0.0))+((V_beta>0.0)<<1);
-	
-}
-void SVPWM()
-{  
-	float Tx,Ty;
-	int Ta,Tb,Tc,Td;
-	int T1,T0;
-	Park_contrary_change();
-	sector_judg();
-	K=T/Vbus;
-	
-	switch(Now_sector)
-	{
-		case 4://扇区一
-			Tx=K*V_alpha;
-			Ty=K*V_beta;
-			T1=(T-Tx-Ty)/2;
-			Ta=Tx+T1;
-			Tb=T1;
-			Tc=Tx+Ty+T1;
-			Td=Tx+T1;
-			break;
-		case 3://扇区二
-			Tx=K*(-V_alpha);
-			Ty=K*V_beta;
-			T1=(T-Tx-Ty)/2;
-			Ta=T1;
-			Tb=Tx+T1;
-			Tc=Tx+Ty+T1;
-			Td=Tx+T1;
-			break;
-		case 1://扇区三
-			Tx=K*(-V_alpha);
-			Ty=K*(-V_beta);
-			T1=(T-Tx-Ty)/2;
-			Ta=T1;
-			Tb=Tx+T1;
-			Tc=Tx+T1;
-			Td=Tx+Ty+T1;
-			break;
-		case 2://扇区四
-			Tx=K*(V_alpha);
-			Ty=K*(-V_beta);
-			T1=(T-Tx-Ty)/2;
-			Ta=Tx+T1;
-			Tb=T1;
-			Tc=Tx+T1;
-			Td=Tx+Ty+T1;
-			break;		
-	}
-	my_data.DATA[4]=Ta;
-	my_data.DATA[5]=Tb;	
-	my_data.DATA[6]=Tc;
-	my_data.DATA[7]=Td;
-	
-	PWM_A= (Ta-Tb);
-	PWM_B= (Tc-Td);
 
+void Set_DAC_Value(short PWM_A,short PWM_B)
+{
 	if(PWM_A>=0)
 	{
 		  HAL_GPIO_WritePin(GPIOA, Motor_IN1_Pin, 1);
@@ -251,68 +185,9 @@ void SVPWM()
 			HAL_GPIO_WritePin(GPIOB, Motor_IN4_Pin, 1);
 			HAL_DAC_SetValue(&hdac1,DAC_CHANNEL_2,DAC_ALIGN_12B_R,(-PWM_B));
 	}
-	
+
 	
 }
-float Target_angel=10;
-float angel_P=0.0005,angel_I=0.00000001,angel_out,angel_error,angel_error_sum;
-void Position_loop()
-{
-		angel_error=Target_angel-Angle_Now;
-    angel_out=angel_error*angel_P+angel_error_sum*angel_I;
-		angel_error_sum+=angel_error;
-	if(angel_error_sum>30000)
-	{
-	angel_error_sum=30000;
-	}
-		else if(angel_error_sum<-30000)
-	{
-	angel_error_sum=-30000;
-	}
-	
-		if(angel_out>0.4)
-	{
-		
-		angel_out=0.4;
-		
-	}
-	else if(angel_out<-0.4)
-	{
-			angel_out=-0.4;
-	}
-
-}
-
-float Target_speed=-0.01 ;
-float Sp_P=2,Sp_I=0.005 ,Sp_out,Sp_error,Sp_error_sum;
-void speed_loop()
-{
-		Sp_error=(angel_out -speed);
-		Sp_out+=Sp_error*Sp_P+Sp_error_sum*Sp_I;
-		Sp_error_sum+=Sp_error;
-	if(Sp_error_sum>100)
-	{
-		Sp_error_sum=100.0;
-	}
-	else if(Sp_error_sum<-100)
-	{
-	 Sp_error_sum=-100.0;
-	}
-	if(Sp_out>7)
-	{
-		Sp_out=7.0f;
-	}
-	else if(Sp_out<-7)
-	{
-		Sp_out=-7.0f;
-	}
-	
-	uq=Sp_out;
-
-	my_data.DATA[8]=angel_out;
-	//my_data.DATA[9]=uq;
-}
-
 
 /* USER CODE END 0 */
 
@@ -382,10 +257,10 @@ int main(void)
 		{
 			HAL_Delay(1000);
 			ud=0;
+			//uq=1.5;
 			isready=1;
 		
 		}
-	CDC_Transmit_FS((char *)&my_data, sizeof(my_data));
 		
   }
   /* USER CODE END 3 */
@@ -727,7 +602,7 @@ static void MX_TIM6_Init(void)
 
   /* USER CODE END TIM6_Init 1 */
   htim6.Instance = TIM6;
-  htim6.Init.Prescaler = 10;
+  htim6.Init.Prescaler = 5;
   htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim6.Init.Period = 1680;
   htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
@@ -802,39 +677,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-uint8_t Times2,times4;
-int Times20;
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{   
-	if(htim == &htim6)  //判断中断是否来自于定时器1
-   {
-		 Times2++;
-		 times4++;
-		 Times20++;
-			HAL_GPIO_TogglePin(GPIOA,RGB3_Pin);  //翻转LED灯的状态
-			Get_Aagel();
-		  SVPWM();
-		 if(Times2==2&&isready==1)
-		 {
-			speed_loop();
-			 Times2=0;
-		 }
-		  if(times4==4&&isready==1)
-			{
-				Position_loop();
-				times4=0;
-			}
-			
-		 if(Times20==60000) 
-		 {
-			
-			 
-			Target_angel+=40;
-			 Times20=0;
-			 my_data.DATA[9]=Target_angel ;
-		 }
-   }
-}
 
 /* USER CODE END 4 */
 

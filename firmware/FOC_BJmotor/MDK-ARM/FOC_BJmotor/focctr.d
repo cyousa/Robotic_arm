@@ -1,5 +1,5 @@
-foc_bjmotor/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
-  ..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal.h \
+foc_bjmotor/focctr.o: ..\Core\Src\FocCtr.c ..\Core\Inc\FocCtr.h \
+  ..\Core\Inc\main.h ..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal.h \
   ..\Core\Inc\stm32g4xx_hal_conf.h \
   ..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_rcc.h \
   ..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_def.h \
@@ -42,14 +42,10 @@ foc_bjmotor/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_tim_ex.h \
   ..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_uart.h \
   ..\Drivers\STM32G4xx_HAL_Driver\Inc\stm32g4xx_hal_uart_ex.h \
-  ..\USB_Device\App\usb_device.h \
-  ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_def.h \
-  ..\USB_Device\Target\usbd_conf.h \
-  D:\keil\ARM\ARMCLANG\Bin\..\include\stdio.h \
-  D:\keil\ARM\ARMCLANG\Bin\..\include\stdlib.h \
-  D:\keil\ARM\ARMCLANG\Bin\..\include\string.h \
+  ..\Core\Inc\pll.h \
   D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\arm_math.h \
   D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\arm_math_types.h \
+  D:\keil\ARM\ARMCLANG\Bin\..\include\string.h \
   D:\keil\ARM\ARMCLANG\Bin\..\include\math.h \
   D:\keil\ARM\ARMCLANG\Bin\..\include\float.h \
   D:\keil\ARM\ARMCLANG\Bin\..\include\limits.h \
@@ -71,5 +67,4 @@ foc_bjmotor/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\transform_functions.h \
   D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\filtering_functions.h \
   D:\keil\Arm\Packs\ARM\CMSIS-DSP\1.14.2\Include\dsp\quaternion_math_functions.h \
-  D:\keil\ARM\ARMCLANG\Bin\..\include\stdbool.h ..\Core\Inc\.\FocCtr.h \
-  ..\Core\Inc\pll.h ..\Core\Inc\.\pll.h
+  D:\keil\ARM\ARMCLANG\Bin\..\include\stdbool.h
