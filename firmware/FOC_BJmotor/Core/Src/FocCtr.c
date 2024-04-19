@@ -105,7 +105,7 @@ void SVPWM()
 
 float Target_angel=0;
 
-float angel_P=5,angel_I=0.00001,angel_out,angel_error,angel_error_sum;
+float angel_P=2,angel_I=0.00001,angel_out,angel_error,angel_error_sum;
 void Position_loop()
 {
 		angel_error=Target_angel-pos_vel.pos;
@@ -120,21 +120,21 @@ void Position_loop()
 	angel_error_sum=-3000;
 	}
 	
-		if(angel_out>1)
+		if(angel_out>10)
 	{
 		
-		angel_out=1;
+		angel_out=10;
 		
 	}
-	else if(angel_out<-1)
+	else if(angel_out<-10)
 	{
-			angel_out=-1;
+			angel_out=-10;
 	}
 
 }
 
 float Target_speed=-0.01 ;
-float Sp_P=0.0055,Sp_I=0.0001,Sp_out,Sp_error,Sp_error_sum;//float Sp_P=0.005,Sp_I=0.0000001 
+float Sp_P=0.002,Sp_I=0.00010,Sp_out,Sp_error,Sp_error_sum;//float Sp_P=0.005,Sp_I=0.0000001 
 void speed_loop()
 {
 		Sp_error=(angel_out -pos_vel.vel);

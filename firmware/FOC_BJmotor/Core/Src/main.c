@@ -117,6 +117,7 @@ void Get_Aagel()
 
 uint8_t Times2,times4;
 int Times20;
+uint8_t fangxiang=0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {   
 	if(htim == &htim6)  //判断中断是否来自于定时器1
@@ -141,14 +142,25 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			
 		 if(Times20==60000) 
 		 {
-			
 			 
-			 Target_angel+=2;
+			if(fangxiang==0)
+			{
+				Target_angel+=2;
+				fangxiang=1;
+			}
+			
+			else if(fangxiang==1)
+			{
+				Target_angel-=2;
+				fangxiang=0;
+			}
+		  
+			
 			 Times20=0;
 
 		 }
 		 
-		my_data.DATA[0]=pos_vel.pos_in_one;
+		my_data.DATA[0]=SPI_recive_data;
 		my_data.DATA[1]=pos_vel.radio;	
 		my_data.DATA[2]=pos_vel.vel;
 		my_data.DATA[3]=pos_vel.pos;
