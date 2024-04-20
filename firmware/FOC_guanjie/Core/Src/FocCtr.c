@@ -15,13 +15,9 @@ float Iq_Target=0,Id_Target=0;
 float Id_ref ,Iq_ref;
 
 
-float Uq=0,Ud=0.8; 
+
+float Uq=0,Ud=0; 
 float Ia,Ib,Ic;
-
-
-
-
-
 
 void Park_change_Contrary()//ParkÄæ±ä»»
 {

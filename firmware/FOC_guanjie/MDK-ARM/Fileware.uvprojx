@@ -401,6 +401,11 @@
               <FilePath>..\Core\Src\FocCtr.c</FilePath>
             </File>
             <File>
+              <FileName>pll.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\pll.c</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/main.c</FilePath>
@@ -415,21 +420,11 @@
               <FileType>1</FileType>
               <FilePath>../Core/Src/stm32g4xx_hal_msp.c</FilePath>
             </File>
-            <File>
-              <FileName>pll.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\Src\pll.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>Drivers/STM32G4xx_HAL_Driver</GroupName>
           <Files>
-            <File>
-              <FileName>stm32g4xx_hal_fdcan.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_fdcan.c</FilePath>
-            </File>
             <File>
               <FileName>stm32g4xx_hal_i2c.c</FileName>
               <FileType>1</FileType>
@@ -697,6 +692,11 @@
               <FileName>stm32g4xx_ll_adc.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32g4xx_hal_fdcan.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_fdcan.c</FilePath>
             </File>
             <File>
               <FileName>stm32g4xx_hal_spi.c</FileName>

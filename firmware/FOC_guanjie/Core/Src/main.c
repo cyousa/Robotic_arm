@@ -71,12 +71,21 @@ void SVPWM()
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
 
+FDCAN_HandleTypeDef hfdcan1;
+
 SPI_HandleTypeDef hspi2;
 
 TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim6;
 
 /* USER CODE BEGIN PV */
+
+
+FDCAN_RxHeaderTypeDef fdcan1_RxHeader;
+FDCAN_TxHeaderTypeDef fdcan1_TxHeader;
+
+uint8_t Can_sendBuf[1];
+
 uint16_t SPI_recive_data,SPI_send_data,Angel_begin;
 
 
@@ -84,7 +93,7 @@ void Get_Aagel()
 {
 	SPI_send_data|=0x3fff;	
 	AS_CS_L
-	HAL_SPI_TransmitReceive(&hspi2,(uint8_t*)&SPI_send_data,(uint8_t*)&SPI_recive_data,1,10);
+	HAL_SPI_TransmitReceive(&hspi2,(uint8_t*)&SPI_send_data,(uint8_t*)&SPI_recive_data,1,100);
 	SPI_recive_data &= 0x3fff;
 	AS_CS_H
 	
@@ -98,31 +107,25 @@ void Get_Aagel()
 
 }
 uint8_t times2;
+int16_t enc;
  void HAL_ADCEx_InjectedConvCpltCallback(ADC_HandleTypeDef* hadc)
  {
 
-		if(hadc == &hadc1)
+		if(hadc == &hadc1 && isready==1)
 		{
 				HAL_GPIO_WritePin(RGB1_GPIO_Port,RGB1_Pin,GPIO_PIN_SET);
 			
 			
-				if(isready==1)
-				{
 					Get_Aagel();
 //					Angel_Now=-K1*(SPI_recive_data-Angel_begin)*14.0f-87.9645943f*laps;
-					int16_t enc = SPI_recive_data - Angel_begin;
+				  enc = SPI_recive_data - Angel_begin;
 					if(enc<0) enc += 16384;					
 					//Angel_Now = -K1*enc*14.f;
 					
 					MeasurePosVel(enc,&pos_vel);//Odrive计算当前角度以及速度
-
-				}
-				
-
-				Klark_change();
+					Klark_change();	
 			
-				if(isready==1)
-				{
+
 					times2++;
 					
 					Uq=Iq_current_loop();
@@ -147,21 +150,25 @@ uint8_t times2;
 					times2=0;
 					}
 					
-				}
+					
+					
+					SVPWM();
 				
-				SVPWM();
+				
+				
 				
 				my_data.DATA[0]   = pos_vel.vel;
 				my_data.DATA[1]   = Iq_Target;
 				my_data.DATA[2]   = Ud;
 				my_data.DATA[3]   = Uq;
-				my_data.DATA[4]   = 0;
+				my_data.DATA[4]   = Angel_begin;
 				my_data.DATA[5]   = 0;
-				my_data.DATA[6]   = 0;
-	      my_data.DATA[7]   = 0;
-				my_data.DATA[8]   = 0;	
+				my_data.DATA[6]   = hfdcan1.ErrorCode;
+	      my_data.DATA[7]   = CAN_recive_data[1];
+				my_data.DATA[8]   = CAN_recive_data[2];	
 				CDC_Transmit_FS((uint8_t*)&my_data, sizeof(my_data));
 				HAL_GPIO_WritePin(RGB1_GPIO_Port,RGB1_Pin,GPIO_PIN_RESET);
+			  //FDCAN1_Send_Msg(&Can_sendBuf[0]);//CAN发送函数
 		}
    
  
@@ -178,6 +185,7 @@ static void MX_TIM1_Init(void);
 static void MX_TIM6_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_SPI2_Init(void);
+static void MX_FDCAN1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -202,6 +210,39 @@ void Pid_Param_init()
 	Speed_ctl.P=-0.5;
 	Speed_ctl.I=-0.01;
 }
+
+
+
+uint8_t FDCAN1_Send_Msg(uint8_t* msg)//CAN发送函数
+{	
+		
+  fdcan1_TxHeader.Identifier = 0X555;
+  fdcan1_TxHeader.IdType = FDCAN_STANDARD_ID;
+  fdcan1_TxHeader.TxFrameType = FDCAN_DATA_FRAME;
+  fdcan1_TxHeader.DataLength = FDCAN_DLC_BYTES_8;
+  fdcan1_TxHeader.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
+  fdcan1_TxHeader.BitRateSwitch = FDCAN_BRS_OFF;
+  fdcan1_TxHeader.FDFormat = FDCAN_CLASSIC_CAN;
+  fdcan1_TxHeader.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
+  fdcan1_TxHeader.MessageMarker = 0x52; //由于网上借鉴该函数，我也不太明白为什么是0x52，不过我测试改成0好像也没问题                    
+    
+  if(HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1,&fdcan1_TxHeader,msg)!=HAL_OK) return 1;//发送
+	return 0;	
+}
+
+uint8_t CAN_recive_data[8];
+uint16_t Can_id;
+uint16_t can_rec_len;
+uint8_t FDCAN1_Receive_Msg(uint8_t *buf, uint16_t *Identifier,uint16_t *len)
+{	
+    
+  if(HAL_FDCAN_GetRxMessage(&hfdcan1,FDCAN_RX_FIFO0,&fdcan1_RxHeader,buf)!=HAL_OK)return 0;//接收数据
+  *Identifier = fdcan1_RxHeader.Identifier;
+  *len=fdcan1_RxHeader.DataLength>>16;
+  return fdcan1_RxHeader.DataLength>>16;	
+}
+
+
 
 /* USER CODE END 0 */
 
@@ -228,6 +269,7 @@ int main(void)
 	
 	Pid_Param_init();
 	
+	
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -244,8 +286,10 @@ int main(void)
   MX_USB_Device_Init();
   MX_ADC1_Init();
   MX_SPI2_Init();
+  MX_FDCAN1_Init();
   /* USER CODE BEGIN 2 */
- HAL_GPIO_WritePin(GPIOC, EN_12V_Pin, 1);
+
+ TIM1->CCR4=1;
  HAL_TIM_Base_Start_IT(&htim6);
  HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_1);
  HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_2);
@@ -255,11 +299,13 @@ int main(void)
  HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_2);
  HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_3);
  HAL_ADCEx_Calibration_Start(&hadc1,ADC_SINGLE_ENDED);
- TIM1->CCR4=1;
  
+
  HAL_ADCEx_InjectedStart(&hadc1);
  __HAL_ADC_ENABLE_IT(&hadc1,ADC_IT_JEOC);
- Get_Aagel();
+ HAL_GPIO_WritePin(GPIOC, EN_12V_Pin, 1);
+ 
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -271,19 +317,19 @@ int main(void)
     /* USER CODE BEGIN 3 */
 		if(isready==0)
 		{
+
+			Can_sendBuf[0]=189;
+			HAL_Delay(200);
+		  Get_Aagel();
+			Ud=1.5f;
+			SVPWM();
 			HAL_Delay(1000);
 			Get_Aagel();
 			Ud=0;
-			Uq=0.0f;
+
 			isready=1;
 			
 		}
-//		HAL_Delay(500);
-//		HAL_GPIO_WritePin(GPIOA, RGB2_Pin|RGB1_Pin, GPIO_PIN_RESET);
-//		HAL_Delay(500);
-//		HAL_GPIO_WritePin(GPIOA, RGB2_Pin|RGB1_Pin, 1);
-		//HAL_UART_Transmit(&hlpuart1,(uint8_t*)&my_data,sizeof(my_data),0xff);
-
 	
   }
   /* USER CODE END 3 */
@@ -440,6 +486,65 @@ static void MX_ADC1_Init(void)
 }
 
 /**
+  * @brief FDCAN1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_FDCAN1_Init(void)
+{
+
+  /* USER CODE BEGIN FDCAN1_Init 0 */
+
+	FDCAN_FilterTypeDef FDCAN1_RXFilter;
+  /* USER CODE END FDCAN1_Init 0 */
+
+  /* USER CODE BEGIN FDCAN1_Init 1 */
+
+  /* USER CODE END FDCAN1_Init 1 */
+  hfdcan1.Instance = FDCAN1;
+  hfdcan1.Init.ClockDivider = FDCAN_CLOCK_DIV1;
+  hfdcan1.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
+  hfdcan1.Init.Mode = FDCAN_MODE_NORMAL;
+  hfdcan1.Init.AutoRetransmission = DISABLE;
+  hfdcan1.Init.TransmitPause = DISABLE;
+  hfdcan1.Init.ProtocolException = DISABLE;
+  hfdcan1.Init.NominalPrescaler = 14;
+  hfdcan1.Init.NominalSyncJumpWidth = 2;
+  hfdcan1.Init.NominalTimeSeg1 = 5;
+  hfdcan1.Init.NominalTimeSeg2 = 6;
+  hfdcan1.Init.DataPrescaler = 1;
+  hfdcan1.Init.DataSyncJumpWidth = 1;
+  hfdcan1.Init.DataTimeSeg1 = 1;
+  hfdcan1.Init.DataTimeSeg2 = 1;
+  hfdcan1.Init.StdFiltersNbr = 0;
+  hfdcan1.Init.ExtFiltersNbr = 0;
+  hfdcan1.Init.TxFifoQueueMode = FDCAN_TX_FIFO_OPERATION;
+  if (HAL_FDCAN_Init(&hfdcan1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN FDCAN1_Init 2 */
+
+	  FDCAN1_RXFilter.IdType=FDCAN_STANDARD_ID;                       //标准ID
+    FDCAN1_RXFilter.FilterIndex=0;                                  //滤波器索引                   
+    FDCAN1_RXFilter.FilterType=FDCAN_FILTER_RANGE;                   //滤波器类型
+    FDCAN1_RXFilter.FilterConfig=FDCAN_FILTER_TO_RXFIFO0;           //过滤器0关联到FIFO0  
+    FDCAN1_RXFilter.FilterID1=0x0000;                               //32位ID
+    FDCAN1_RXFilter.FilterID2=0x0000;                               //如果FDCAN配置为传统模式的话，这里是32位掩码
+    if(HAL_FDCAN_ConfigFilter(&hfdcan1,&FDCAN1_RXFilter)!=HAL_OK) //滤波器初始化
+		{
+			Error_Handler();
+		}
+ 
+ 
+    HAL_FDCAN_Start(&hfdcan1);                               //开启FDCAN
+    HAL_FDCAN_ActivateNotification(&hfdcan1,FDCAN_IT_RX_FIFO0_NEW_MESSAGE,0);
+
+  /* USER CODE END FDCAN1_Init 2 */
+
+}
+
+/**
   * @brief SPI2 Initialization Function
   * @param None
   * @retval None
@@ -491,6 +596,7 @@ static void MX_TIM1_Init(void)
 
   /* USER CODE END TIM1_Init 0 */
 
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   TIM_OC_InitTypeDef sConfigOC = {0};
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
@@ -501,10 +607,19 @@ static void MX_TIM1_Init(void)
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 0;
   htim1.Init.CounterMode = TIM_COUNTERMODE_CENTERALIGNED1;
-  htim1.Init.Period = 4200;
+  htim1.Init.Period = 4199;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
   if (HAL_TIM_PWM_Init(&htim1) != HAL_OK)
   {
     Error_Handler();

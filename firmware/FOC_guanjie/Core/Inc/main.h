@@ -116,6 +116,11 @@ typedef struct PID_Param{
 }PID;
 
 extern struct send_data my_data;
+
+extern uint8_t CAN_recive_data[8];
+extern uint16_t Can_id,can_rec_len;
+uint8_t FDCAN1_Send_Msg(uint8_t* msg);//CAN·¢ËÍº¯Êý
+uint8_t FDCAN1_Receive_Msg(uint8_t *buf, uint16_t *Identifier,uint16_t *len);
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
