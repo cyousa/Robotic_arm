@@ -112,6 +112,7 @@ typedef struct PID_Param{
 	float error;
 	float error_sum;
 	float out;
+	float target;
 
 }PID;
 

@@ -14,12 +14,18 @@
 extern float ta,tb,tc;
 extern struct PosVel pos_vel; 
 extern float Uq,Ud; 
+
 extern PID Iq_current,Id_current;
 extern PID Speed_ctl;
+extern PID Position_ctl;
+
 extern float Iq_Target;
+extern float target_speed;
+
 
 float Iq_current_loop();
 float Id_current_loop();
+void position_loop();
 float  speed_loop();
 void sector_judg();
 void Park_change_Contrary();

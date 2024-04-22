@@ -106,7 +106,7 @@ void Get_Aagel()
 	
 
 }
-uint8_t times2;
+uint8_t times2,times4;
 int16_t enc;
  void HAL_ADCEx_InjectedConvCpltCallback(ADC_HandleTypeDef* hadc)
  {
@@ -127,7 +127,8 @@ int16_t enc;
 			
 
 					times2++;
-					
+					times4++;
+			
 					Uq=Iq_current_loop();
 					Ud=Id_current_loop();
 					float limit = Vbus *(2.f/3.f);
@@ -135,19 +136,18 @@ int16_t enc;
 					else if(Uq < -limit) 	Uq = -limit;				
 					if(Ud>limit) 					Ud = limit;
 					else if(Ud < -limit) 	Ud = -limit;
+					
 					if(times2==2)
 					{
 						
-					Iq_Target=speed_loop();	
-						if(Iq_Target>4)
-						{
-							Iq_Target=4;
-						}
-						else if(Iq_Target<-4)
-						{
-							Iq_Target=-4;
-						}
-					times2=0;
+						Iq_Target=speed_loop();	
+						times2=0;
+						
+					}
+					if(times4==4)
+					{
+							position_loop();
+					
 					}
 					
 					
@@ -162,10 +162,10 @@ int16_t enc;
 				my_data.DATA[2]   = Ud;
 				my_data.DATA[3]   = Uq;
 				my_data.DATA[4]   = Angel_begin;
-				my_data.DATA[5]   = 0;
-				my_data.DATA[6]   = hfdcan1.ErrorCode;
-	      my_data.DATA[7]   = CAN_recive_data[1];
-				my_data.DATA[8]   = CAN_recive_data[2];	
+				my_data.DATA[5]   = pos_vel.vel;
+				my_data.DATA[6]   = Position_ctl.out;
+	      my_data.DATA[7]   = pos_vel.pos;
+				my_data.DATA[8]   = Position_ctl.target;	
 				CDC_Transmit_FS((uint8_t*)&my_data, sizeof(my_data));
 				HAL_GPIO_WritePin(RGB1_GPIO_Port,RGB1_Pin,GPIO_PIN_RESET);
 			  //FDCAN1_Send_Msg(&Can_sendBuf[0]);//CAN发送函数
@@ -192,23 +192,43 @@ static void MX_FDCAN1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
- uint8_t times200us;
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)//10KHz 0.0001ms
+ uint16_t times1000ms;
+ uint16_t add_jian=0;
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)// 100ms
 {   
 	if(htim == &htim6)  //判断中断是否来自于定时器1
    {
 			__HAL_TIM_CLEAR_FLAG(&htim6,TIM_FLAG_UPDATE);
+		 times1000ms++;
+		 if(times1000ms==1200)
+		 {
+				if(add_jian==0)
+				{
+						Position_ctl.target = 0;
+						add_jian=1;
+				}
+				else if(add_jian==1)
+				{
+						Position_ctl.target = 8;
+						add_jian=0;
+				}
+				times1000ms=0;
+		 
+		 }
    }
 }
 
 
 void Pid_Param_init()
 {
-	Iq_current.P=0.78;
-	Iq_current.I=0.0907;
+	Iq_current.P   =  0.78;
+	Iq_current.I   =  0.0907;
 	
-	Speed_ctl.P=-0.5;
-	Speed_ctl.I=-0.01;
+	Speed_ctl.P    =  -0.6;
+	Speed_ctl.I    =  -0.01;
+	
+  Position_ctl.P =   0.5;                                        ;
+	Position_ctl.I =   0;
 }
 
 
@@ -267,7 +287,7 @@ int main(void)
 		my_data.tail[2]=0x80;
 		my_data.tail[3]=0x7F;
 	
-	Pid_Param_init();
+	  Pid_Param_init();
 	
 	
   /* USER CODE END Init */
@@ -698,7 +718,7 @@ static void MX_TIM6_Init(void)
   htim6.Instance = TIM6;
   htim6.Init.Prescaler = 168;
   htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim6.Init.Period = 1000;
+  htim6.Init.Period = 10000;
   htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim6) != HAL_OK)
   {

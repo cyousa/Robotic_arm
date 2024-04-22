@@ -170,14 +170,46 @@ float Id_current_loop()
 
 PID Speed_ctl;
 
-float target_speed=5; 
+float target_speed=2; 
 float speed,speed_last;
+//速度给5就很快了
 float  speed_loop()
 {
 	
-	Speed_ctl.error = target_speed-pos_vel.vel;
-	Speed_ctl.error_sum += Speed_ctl.error;
-	Speed_ctl.out=Speed_ctl.error * Speed_ctl.P + Speed_ctl.error_sum*Speed_ctl.I;
-	return Speed_ctl.out;
+			Speed_ctl.error      =  Position_ctl.out - pos_vel.vel;
+			Speed_ctl.error_sum +=  Speed_ctl.error;
+			Speed_ctl.out        =  Speed_ctl.error * Speed_ctl.P + Speed_ctl.error_sum*Speed_ctl.I;
+			if(Speed_ctl.out > 4)
+			{
+					Speed_ctl.out=4;
+			}
+			else if(Speed_ctl.out < -4)
+			{
+				Speed_ctl.out= -4;
+			
+			}
+			
+			return Speed_ctl.out;
 
+}
+
+
+PID Position_ctl;
+void position_loop()
+{
+	
+			Position_ctl.error       =  Position_ctl.target - pos_vel.pos;
+			Position_ctl.error_sum  +=  Position_ctl.error;
+			Position_ctl.out         =  Position_ctl.error * Position_ctl.P + Position_ctl.error_sum * Position_ctl.I;
+			if(Position_ctl.out > 5)
+			{
+				Position_ctl.out =  5;
+			
+			}
+			else if(Position_ctl.out < -5)
+			{
+				Position_ctl.out = -5;
+			
+			}
+	
 }

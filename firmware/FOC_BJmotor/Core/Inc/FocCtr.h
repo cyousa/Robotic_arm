@@ -3,7 +3,7 @@
 #include "main.h"
 #include "pll.h"
 
-#define  Vbus  14.0f;
+#define  Vbus  16.0f;
 
 
 extern uint8_t isready;

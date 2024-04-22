@@ -140,18 +140,18 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 					times4=0;
 			}
 			
-		 if(Times20==60000) 
+		 if(Times20==100000) 
 		 {
 			 
 			if(fangxiang==0)
 			{
-				Target_angel+=2;
+				Target_angel+=1;
 				fangxiang=1;
 			}
 			
 			else if(fangxiang==1)
 			{
-				Target_angel-=2;
+				Target_angel-=1;
 				fangxiang=0;
 			}
 		  
