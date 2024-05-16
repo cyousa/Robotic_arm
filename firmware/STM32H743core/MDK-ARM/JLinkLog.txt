@@ -1,0 +1,95 @@
+T10E4 000:003.818   SEGGER J-Link V7.82 Log File
+T10E4 000:003.930   DLL Compiled: Oct 13 2022 13:32:51
+T10E4 000:003.934   Logging started @ 2024-05-08 15:15
+T10E4 000:003.938 - 3.940ms
+T10E4 000:003.945 JLINK_SetWarnOutHandler(...)
+T10E4 000:003.950 - 0.006ms
+T10E4 000:003.954 JLINK_OpenEx(...)
+T10E4 000:005.274   Firmware: J-Link J-Link V21 compiled Oct 24 2016 00:00:00
+T10E4 000:005.576   Firmware: J-Link J-Link V21 compiled Oct 24 2016 00:00:00
+T10E4 000:019.760   Hardware: V1.00
+T10E4 000:019.775   S/N: 778224836
+T10E4 000:019.781   OEM: SEGGER
+T10E4 000:019.787   Feature(s): None
+T10E4 000:020.811   TELNET listener socket opened on port 19021
+T10E4 000:020.895   WEBSRV WEBSRV_Init(): Starting webserver thread(s)
+T10E4 000:021.034   WEBSRV Webserver running on local port 19080
+T10E4 000:031.883 - 27.946ms returns "O.K."
+T10E4 000:031.917 JLINK_GetEmuCaps()
+T10E4 000:031.923 - 0.007ms returns 0x98EA5A33
+T10E4 000:031.931 JLINK_TIF_GetAvailable(...)
+T10E4 000:032.076 - 0.147ms
+T10E4 000:032.085 JLINK_SetErrorOutHandler(...)
+T10E4 000:032.088 - 0.005ms
+T10E4 000:032.105 JLINK_ExecCommand("ProjectFile = "E:\Robot\firmware\STM32H743core\MDK-ARM\JLinkSettings.ini"", ...). 
+T10E4 000:040.544 - 8.446ms returns 0x00
+T10E4 000:041.992 JLINK_ExecCommand("Device = STM32H743IITx", ...). 
+T10E4 000:042.756   Flash bank @ 0x90000000: SFL: Parsing sectorization info from ELF file
+T10E4 000:042.765     FlashDevice.SectorInfo[0]: .SectorSize = 0x00010000, .SectorStartAddr = 0x00000000
+T10E4 000:042.775   OFL: Init() N/A
+T10E4 000:042.781   OFL: UnInit() N/A
+T10E4 000:042.787   OFL: EraseSector() N/A
+T10E4 000:042.793   OFL: ProgramPage() N/A
+T10E4 000:042.799   OFL: EraseChip() N/A
+T10E4 000:042.804   OFL: BlankCheck() N/A
+T10E4 000:042.810   OFL: Verify() N/A
+T10E4 000:042.817   OFL: SEGGER_FL_Erase() present @ offset 0x000005F9
+T10E4 000:042.823   OFL: SEGGER_FL_Program() present @ offset 0x000005D5
+T10E4 000:042.829   OFL: SEGGER_FL_Read() N/A
+T10E4 000:042.835   OFL: SEGGER_OPEN_Read() N/A
+T10E4 000:042.841   OFL: SEGGER_FL_CalcCRC() present @ offset 0x00000629
+T10E4 000:042.847   OFL: SEGGER_FL_Start() present @ offset 0x00000641
+T10E4 000:042.853   OFL: SEGGER_FL_GetFlashInfo() present @ offset 0x000001CD
+T10E4 000:042.858   OFL: SEGGER_FL_Verify() N/A
+T10E4 000:042.864   OFL: SEGGER_FL_CheckBlank() present @ offset 0x00000615
+T10E4 000:042.870   OFL: SEGGER_FL_Prepare() present @ offset 0x00000301
+T10E4 000:042.876   OFL: SEGGER_FL_Restore() present @ offset 0x000004E5
+T10E4 000:042.882   OFL: SEGGER_FL_EraseChip() N/A
+T10E4 000:047.169   Device "STM32H743II" selected.
+T10E4 000:047.433 - 5.433ms returns 0x00
+T10E4 000:047.444 JLINK_ExecCommand("DisableConnectionTimeout", ...). 
+T10E4 000:047.450 - 0.003ms returns 0x01
+T10E4 000:047.456 JLINK_GetHardwareVersion()
+T10E4 000:047.460 - 0.006ms returns 10000
+T10E4 000:047.469 JLINK_GetDLLVersion()
+T10E4 000:047.473 - 0.005ms returns 78200
+T10E4 000:047.478 JLINK_GetOEMString(...)
+T10E4 000:047.483 JLINK_GetFirmwareString(...)
+T10E4 000:047.487 - 0.005ms
+T10E4 000:050.604 JLINK_GetDLLVersion()
+T10E4 000:050.614 - 0.012ms returns 78200
+T10E4 000:050.619 JLINK_GetCompileDateTime()
+T10E4 000:050.623 - 0.005ms
+T10E4 000:051.568 JLINK_GetFirmwareString(...)
+T10E4 000:051.577 - 0.010ms
+T10E4 000:052.602 JLINK_GetHardwareVersion()
+T10E4 000:052.610 - 0.010ms returns 10000
+T10E4 000:053.654 JLINK_GetSN()
+T10E4 000:053.662 - 0.010ms returns 778224836
+T10E4 000:054.616 JLINK_GetOEMString(...)
+T10E4 000:055.551 JLINK_TIF_Select(JLINKARM_TIF_SWD)
+T10E4 000:056.203 - 0.659ms returns 0x00
+T10E4 000:056.216 JLINK_HasError()
+T10E4 000:056.230 JLINK_SetSpeed(500)
+T10E4 000:056.345 - 0.121ms
+T10E4 000:056.359 JLINK_GetId()
+T10E4 000:057.837   ConfigTargetSettings() start
+T10E4 000:057.853    J-Link Script File: Executing ConfigTargetSettings()
+T10E4 000:060.447   ConfigTargetSettings() end
+T10E4 000:167.516   STM32 (connect): Can not attach to CPU. Trying connect under reset.
+T10E4 000:323.318   
+  ***** Error: 
+T10E4 000:323.345   STM32: Connecting to CPU via connect under reset failed.
+T10E4 000:375.326   Connect fallback: Reset via Reset pin & Connect.
+T10E4 000:430.109   ConfigTargetSettings() start
+T10E4 000:430.126    J-Link Script File: Executing ConfigTargetSettings()
+T10E4 000:431.209   ConfigTargetSettings() end
+T10E4 000:537.207   STM32 (connect): Can not attach to CPU. Trying connect under reset.
+T10E4 000:693.298   
+  ***** Error: 
+T10E4 000:693.327   STM32: Connecting to CPU via connect under reset failed.
+T10E4 000:744.065 - 687.718ms returns 0x00000000
+T10E4 002:212.641 JLINK_Close()
+T10E4 002:236.862 - 24.245ms
+T10E4 002:236.888   
+T10E4 002:236.893   Closed
