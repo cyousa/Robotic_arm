@@ -1,10 +1,10 @@
 --cpu Cortex-M7.fp.dp
 "stm32h743core\startup_stm32h743xx.o"
 "stm32h743core\st7789.o"
+"stm32h743core\lcd.o"
 "stm32h743core\main.o"
 "stm32h743core\stm32h7xx_it.o"
 "stm32h743core\stm32h7xx_hal_msp.o"
-"stm32h743core\lcd.o"
 "stm32h743core\stm32h7xx_hal_cortex.o"
 "stm32h743core\stm32h7xx_hal_dcmi.o"
 "stm32h743core\stm32h7xx_hal_rcc.o"

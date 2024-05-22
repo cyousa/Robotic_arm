@@ -314,12 +314,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)//
 		HAL_GPIO_WritePin(GPIOG, RGB1_Pin, 0);
 		 if(rgb==1)
 		 {
-			//LCD_Fill(50,50,100,100,31);
+			LCD_Fill(50,50,100,100,31);
 			// LCD_DrawRectangle(0,0,172,320,31);
 		 }
 		 else
 		 {
-		  //LCD_Fill(50,50,50,50,0XF800);
+		  LCD_Fill(50,50,50,50,0XF800);
 		 // LCD_DrawRectangle(50,50,100,100,31);
 		 }
 		__HAL_TIM_CLEAR_IT(&htim3, TIM_IT_UPDATE);
@@ -359,19 +359,19 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-//  MX_DMA_Init();
-//  MX_DCMI_Init();
-//  MX_FMC_Init();
-//  MX_I2C1_Init();
-//  MX_FDCAN1_Init();
-//  MX_I2C2_Init();
-//  MX_I2C4_Init();
-//  MX_SAI1_Init();
-//  MX_SDMMC2_SD_Init();
-//  MX_SPI5_Init();
-//  MX_UART5_Init();
-//  MX_UART4_Init();
-//  MX_USB_OTG_FS_HCD_Init();
+  MX_DMA_Init();
+  MX_DCMI_Init();
+  MX_FMC_Init();
+  MX_I2C1_Init();
+  MX_FDCAN1_Init();
+  MX_I2C2_Init();
+  MX_I2C4_Init();
+  MX_SAI1_Init();
+  MX_SDMMC2_SD_Init();
+  MX_SPI5_Init();
+  MX_UART5_Init();
+  MX_UART4_Init();
+  MX_USB_OTG_FS_HCD_Init();
   MX_SPI6_Init();
   MX_SPI2_Init();
   MX_TIM3_Init();
@@ -949,7 +949,7 @@ static void MX_SPI6_Init(void)
   hspi6.Init.Mode = SPI_MODE_MASTER;
   hspi6.Init.Direction = SPI_DIRECTION_2LINES;
   hspi6.Init.DataSize = SPI_DATASIZE_8BIT;
-  hspi6.Init.CLKPolarity = SPI_POLARITY_LOW;
+  hspi6.Init.CLKPolarity = SPI_POLARITY_HIGH;
   hspi6.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi6.Init.NSS = SPI_NSS_SOFT;
   hspi6.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
@@ -1184,15 +1184,15 @@ static void MX_FMC_Init(void)
   hsdram1.Instance = FMC_SDRAM_DEVICE;
   /* hsdram1.Init */
   hsdram1.Init.SDBank = FMC_SDRAM_BANK1;
-  hsdram1.Init.ColumnBitsNumber = FMC_SDRAM_COLUMN_BITS_NUM_8;
+  hsdram1.Init.ColumnBitsNumber = FMC_SDRAM_COLUMN_BITS_NUM_9;
   hsdram1.Init.RowBitsNumber = FMC_SDRAM_ROW_BITS_NUM_13;
   hsdram1.Init.MemoryDataWidth = FMC_SDRAM_MEM_BUS_WIDTH_16;
   hsdram1.Init.InternalBankNumber = FMC_SDRAM_INTERN_BANKS_NUM_4;
-  hsdram1.Init.CASLatency = FMC_SDRAM_CAS_LATENCY_1;
+  hsdram1.Init.CASLatency = FMC_SDRAM_CAS_LATENCY_3;
   hsdram1.Init.WriteProtection = FMC_SDRAM_WRITE_PROTECTION_DISABLE;
   hsdram1.Init.SDClockPeriod = FMC_SDRAM_CLOCK_DISABLE;
-  hsdram1.Init.ReadBurst = FMC_SDRAM_RBURST_DISABLE;
-  hsdram1.Init.ReadPipeDelay = FMC_SDRAM_RPIPE_DELAY_0;
+  hsdram1.Init.ReadBurst = FMC_SDRAM_RBURST_ENABLE;
+  hsdram1.Init.ReadPipeDelay = FMC_SDRAM_RPIPE_DELAY_1;
   /* SdramTiming */
   SdramTiming.LoadToActiveDelay = 16;
   SdramTiming.ExitSelfRefreshDelay = 16;

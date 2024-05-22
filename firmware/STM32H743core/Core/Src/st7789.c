@@ -127,11 +127,11 @@ void LCD_Init(void)
 	
 
 	
-//	LCD_RST_L
-//	HAL_Delay(300);
+	LCD_RST_L
+	HAL_Delay(200);
 	//RST拉低移到GPIOinit中了，所以这里只需要拉高就行
 	LCD_RST_H;
-	HAL_Delay(500);
+	HAL_Delay(100);
 
 	
 	//************* Start Initial Sequence **********//
