@@ -406,6 +406,11 @@
               <FilePath>..\Core\Src\lcd.c</FilePath>
             </File>
             <File>
+              <FileName>sdram.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\sdram.c</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/main.c</FilePath>

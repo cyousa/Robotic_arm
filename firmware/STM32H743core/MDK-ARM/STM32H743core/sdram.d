@@ -1,4 +1,4 @@
-stm32h743core/lcd.o: ..\Core\Src\lcd.c ..\Core\Inc\lcd.h \
+stm32h743core/sdram.o: ..\Core\Src\sdram.c ..\Core\Inc\sdram.h \
   ..\Core\Inc\main.h ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
   ..\Core\Inc\stm32h7xx_hal_conf.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_rcc.h \
@@ -51,4 +51,4 @@ stm32h743core/lcd.o: ..\Core\Src\lcd.c ..\Core\Inc\lcd.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_hcd.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_usb.h \
   ..\Core\Inc\st7789.h D:\keil\ARM\ARMCLANG\Bin\..\include\stdbool.h \
-  ..\Core\Inc\sdram.h ..\Core\Inc\lcdfont.h
+  ..\Core\Inc\lcd.h

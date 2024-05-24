@@ -51,4 +51,4 @@ stm32h743core/stm32h7xx_hal_msp.o: ..\Core\Src\stm32h7xx_hal_msp.c \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_hcd.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_usb.h \
   ..\Core\Inc\st7789.h D:\keil\ARM\ARMCLANG\Bin\..\include\stdbool.h \
-  ..\Core\Inc\lcd.h
+  ..\Core\Inc\lcd.h ..\Core\Inc\sdram.h

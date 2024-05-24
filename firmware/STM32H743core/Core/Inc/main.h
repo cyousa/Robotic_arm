@@ -33,11 +33,14 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 #include "st7789.h"
 #include "lcd.h"
+#include "sdram.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 extern SPI_HandleTypeDef hspi6;
+extern TIM_HandleTypeDef htim6;
+extern SDRAM_HandleTypeDef hsdram1;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/

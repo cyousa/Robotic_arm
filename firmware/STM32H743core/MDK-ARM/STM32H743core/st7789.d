@@ -51,6 +51,7 @@ stm32h743core/st7789.o: ..\Core\Src\st7789.c ..\Core\Inc\st7789.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart_ex.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_hcd.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_usb.h \
-  ..\Core\Inc\lcd.h D:\keil\ARM\ARMCLANG\Bin\..\include\assert.h \
+  ..\Core\Inc\lcd.h ..\Core\Inc\sdram.h \
+  D:\keil\ARM\ARMCLANG\Bin\..\include\assert.h \
   D:\keil\ARM\ARMCLANG\Bin\..\include\stdio.h \
   D:\keil\ARM\ARMCLANG\Bin\..\include\string.h

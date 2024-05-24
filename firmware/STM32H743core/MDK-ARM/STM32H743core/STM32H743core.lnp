@@ -2,6 +2,7 @@
 "stm32h743core\startup_stm32h743xx.o"
 "stm32h743core\st7789.o"
 "stm32h743core\lcd.o"
+"stm32h743core\sdram.o"
 "stm32h743core\main.o"
 "stm32h743core\stm32h7xx_it.o"
 "stm32h743core\stm32h7xx_hal_msp.o"
