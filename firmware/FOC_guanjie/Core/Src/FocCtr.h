@@ -14,7 +14,8 @@
 extern float ta,tb,tc;
 extern struct PosVel pos_vel; 
 extern float Uq,Ud; 
-
+extern float Ia,Ib,Ic;
+extern float Id_ref ,Iq_ref;
 extern PID Iq_current,Id_current;
 extern PID Speed_ctl;
 extern PID Position_ctl;

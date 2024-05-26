@@ -88,7 +88,10 @@ uint8_t Can_sendBuf[1];
 
 uint16_t SPI_recive_data,SPI_send_data,Angel_begin;
 
-
+float Ture_angel=0;
+float angel_temp,Ture_angel_last;
+int circle;
+extern float Ture_angel;
 void Get_Aagel()	
 {
 	SPI_send_data|=0x3fff;	
@@ -96,7 +99,19 @@ void Get_Aagel()
 	HAL_SPI_TransmitReceive(&hspi2,(uint8_t*)&SPI_send_data,(uint8_t*)&SPI_recive_data,1,100);
 	SPI_recive_data &= 0x3fff;
 	AS_CS_H
+	angel_temp=(float)SPI_recive_data;
+	angel_temp = angel_temp/2607.5945;///16384.0*2.0*PI
+	if(angel_temp-Ture_angel_last>5)
+	{
+			circle++;
+	}
+	else if(angel_temp-Ture_angel_last<-5)
+	{
+		circle--;
+	}
 	
+	Ture_angel_last=angel_temp;
+	Ture_angel=-angel_temp+6.2832*circle;
 	if(isready==0)
 	{
 		Angel_begin=SPI_recive_data;
@@ -157,13 +172,13 @@ int16_t enc;
 				
 				
 				
-				my_data.DATA[0]   = pos_vel.vel;
-				my_data.DATA[1]   = Iq_Target;
-				my_data.DATA[2]   = Ud;
-				my_data.DATA[3]   = Uq;
-				my_data.DATA[4]   = Angel_begin;
-				my_data.DATA[5]   = pos_vel.vel;
-				my_data.DATA[6]   = Position_ctl.out;
+				my_data.DATA[0]   = Position_ctl.target;
+				my_data.DATA[1]   = pos_vel.pos;
+				my_data.DATA[2]   = Position_ctl.out;
+				my_data.DATA[3]   = pos_vel.vel;
+				my_data.DATA[4]   = Iq_Target;
+				my_data.DATA[5]   = Iq_ref;
+				my_data.DATA[6]   = Ture_angel;
 	      my_data.DATA[7]   = pos_vel.pos;
 				my_data.DATA[8]   = Position_ctl.target;	
 				CDC_Transmit_FS((uint8_t*)&my_data, sizeof(my_data));
@@ -209,7 +224,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)// 100ms
 				}
 				else if(add_jian==1)
 				{
-						Position_ctl.target = 8;
+						Position_ctl.target = 50.24;
 						add_jian=0;
 				}
 				times1000ms=0;
@@ -222,12 +237,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)// 100ms
 void Pid_Param_init()
 {
 	Iq_current.P   =  0.78;
-	Iq_current.I   =  0.0907;
+	Iq_current.I   = 0.0907;
 	
-	Speed_ctl.P    =  -0.6;
-	Speed_ctl.I    =  -0.01;
+	Speed_ctl.P    =  -0.5;
+	Speed_ctl.I    =  -0.002;
 	
-  Position_ctl.P =   0.5;                                        ;
+  Position_ctl.P =   1;                                        ;
 	Position_ctl.I =   0;
 }
 
@@ -348,7 +363,7 @@ int main(void)
 			Ud=0;
 
 			isready=1;
-			
+			Position_ctl.target=0;
 		}
 	
   }

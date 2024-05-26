@@ -41,9 +41,10 @@ float I_ref_ahp,I_ref_beta;
 void Klark_change()//克拉克变换
 {
 	
-	Ia=(((uint16_t)hadc1.Instance->JDR1 - 2048) / 4096.f) / 20.f / 0.005f;
+	//Ia=(((uint16_t)hadc1.Instance->JDR1 - 2048) / 4096.f) / 20.f / 0.005f;
 	Ib=(((uint16_t)hadc1.Instance->JDR2 - 2048) / 4096.f) / 20.f / 0.005f;
 	Ic=(((uint16_t)hadc1.Instance->JDR3 - 2048) / 4096.f) / 20.f / 0.005f;
+	Ia=-(Ib+Ic);
 	I_ref_ahp=Ia-0.5f*(Ib+Ic);
 	I_ref_beta=0.5774f*(Ib - Ic);	
 	
@@ -195,20 +196,21 @@ float  speed_loop()
 
 
 PID Position_ctl;
+
 void position_loop()
-{
-	
-			Position_ctl.error       =  Position_ctl.target - pos_vel.pos;
+{			
+
+			Position_ctl.error       =  Position_ctl.target + Ture_angel;
 			Position_ctl.error_sum  +=  Position_ctl.error;
 			Position_ctl.out         =  Position_ctl.error * Position_ctl.P + Position_ctl.error_sum * Position_ctl.I;
-			if(Position_ctl.out > 5)
+			if(Position_ctl.out > 2)
 			{
-				Position_ctl.out =  5;
+				Position_ctl.out =  2;
 			
 			}
-			else if(Position_ctl.out < -5)
+			else if(Position_ctl.out < -2)
 			{
-				Position_ctl.out = -5;
+				Position_ctl.out = -2;
 			
 			}
 	

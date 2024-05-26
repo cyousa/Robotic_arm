@@ -98,12 +98,15 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN Private defines */
 extern ADC_HandleTypeDef hadc1;
+
+
 struct send_data{
 	float DATA[9];
 	uint8_t tail[4];
 
 
 };
+
 
 typedef struct PID_Param{
 
@@ -117,6 +120,8 @@ typedef struct PID_Param{
 }PID;
 
 extern struct send_data my_data;
+extern uint16_t SPI_recive_data;
+extern float Ture_angel;
 
 extern uint8_t CAN_recive_data[8];
 extern uint16_t Can_id,can_rec_len;
