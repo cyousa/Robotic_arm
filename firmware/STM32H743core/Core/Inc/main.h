@@ -34,6 +34,7 @@ extern "C" {
 #include "st7789.h"
 #include "lcd.h"
 #include "sdram.h"
+#include "sdctr.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -41,6 +42,15 @@ extern "C" {
 extern SPI_HandleTypeDef hspi6;
 extern TIM_HandleTypeDef htim6;
 extern SDRAM_HandleTypeDef hsdram1;
+
+struct send_data{
+	uint16_t DATA[512];
+	uint8_t tail[4];
+
+
+};
+
+
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/

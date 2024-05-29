@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "usb_device.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -36,7 +37,8 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+extern uint8_t CDC_Transmit_FS(uint8_t* Buf, uint16_t Len);
+struct send_data my_data;
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -65,8 +67,6 @@ TIM_HandleTypeDef htim6;
 UART_HandleTypeDef huart4;
 UART_HandleTypeDef huart5;
 
-HCD_HandleTypeDef hhcd_USB_OTG_FS;
-
 SDRAM_HandleTypeDef hsdram1;
 
 /* USER CODE BEGIN PV */
@@ -89,7 +89,6 @@ static void MX_SDMMC2_SD_Init(void);
 static void MX_SPI5_Init(void);
 static void MX_UART5_Init(void);
 static void MX_UART4_Init(void);
-static void MX_USB_OTG_FS_HCD_Init(void);
 static void MX_SPI6_Init(void);
 static void MX_SPI2_Init(void);
 static void MX_TIM3_Init(void);
@@ -148,7 +147,10 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-    
+    my_data.tail[0]=0x00;
+		my_data.tail[1]=0x00;
+		my_data.tail[2]=0x80;
+		my_data.tail[3]=0x7F;
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -175,11 +177,11 @@ int main(void)
   MX_SPI5_Init();
   MX_UART5_Init();
   MX_UART4_Init();
-  MX_USB_OTG_FS_HCD_Init();
   MX_SPI6_Init();
   MX_SPI2_Init();
   MX_TIM3_Init();
   MX_TIM6_Init();
+  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
 	LCD_Init();
 
@@ -202,7 +204,34 @@ int main(void)
 	
 	sdram_data = *(uint16_t *)(SDRAM_BASE_ADDR + 0x100) ;
 	
-	LCD_ShowIntNum(10,10,sdram_data,3,WHITE,BLACK,32);
+	LCD_ShowIntNum(10,10,hsd2.SdCard.RelCardAdd ,6,WHITE,BLACK,32);
+	
+
+	HAL_Delay(5000);
+	for(uint16_t i=0; i<512;i++)
+	{			
+		if(i>255)
+		{		
+				send_buf[i]=i-255;
+		}
+		else
+		{
+				send_buf[i]=i;
+		}
+			
+	
+	}
+	HAL_SD_WriteBlocks(&hsd2,(uint8_t *)send_buf,0,1,1000);
+	
+	HAL_SD_ReadBlocks(&hsd2,(uint8_t *)rec_buf,0,1,1000);
+	for(uint16_t i=0; i<512;i++)
+	{
+
+		my_data.DATA[i]=rec_buf[i];
+	}
+			
+	
+	CDC_Transmit_FS((uint8_t*)&my_data, sizeof(my_data));
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -640,7 +669,7 @@ static void MX_SDMMC2_SD_Init(void)
   hsd2.Init.ClockPowerSave = SDMMC_CLOCK_POWER_SAVE_DISABLE;
   hsd2.Init.BusWide = SDMMC_BUS_WIDE_4B;
   hsd2.Init.HardwareFlowControl = SDMMC_HARDWARE_FLOW_CONTROL_DISABLE;
-  hsd2.Init.ClockDiv = 0;
+  hsd2.Init.ClockDiv = 3;
   if (HAL_SD_Init(&hsd2) != HAL_OK)
   {
     Error_Handler();
@@ -971,37 +1000,6 @@ static void MX_UART5_Init(void)
   /* USER CODE BEGIN UART5_Init 2 */
 
   /* USER CODE END UART5_Init 2 */
-
-}
-
-/**
-  * @brief USB_OTG_FS Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USB_OTG_FS_HCD_Init(void)
-{
-
-  /* USER CODE BEGIN USB_OTG_FS_Init 0 */
-
-  /* USER CODE END USB_OTG_FS_Init 0 */
-
-  /* USER CODE BEGIN USB_OTG_FS_Init 1 */
-
-  /* USER CODE END USB_OTG_FS_Init 1 */
-  hhcd_USB_OTG_FS.Instance = USB_OTG_FS;
-  hhcd_USB_OTG_FS.Init.Host_channels = 16;
-  hhcd_USB_OTG_FS.Init.speed = HCD_SPEED_FULL;
-  hhcd_USB_OTG_FS.Init.dma_enable = DISABLE;
-  hhcd_USB_OTG_FS.Init.phy_itface = HCD_PHY_EMBEDDED;
-  hhcd_USB_OTG_FS.Init.Sof_enable = DISABLE;
-  if (HAL_HCD_Init(&hhcd_USB_OTG_FS) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USB_OTG_FS_Init 2 */
-
-  /* USER CODE END USB_OTG_FS_Init 2 */
 
 }
 
