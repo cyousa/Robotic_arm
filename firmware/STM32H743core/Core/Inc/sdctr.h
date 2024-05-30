@@ -4,4 +4,5 @@
 #include "main.h"
 extern uint8_t rec_buf[512];
 extern uint8_t send_buf[512];
+void SD_test_init();
 #endif

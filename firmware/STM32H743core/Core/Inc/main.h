@@ -44,7 +44,7 @@ extern TIM_HandleTypeDef htim6;
 extern SDRAM_HandleTypeDef hsdram1;
 
 struct send_data{
-	uint16_t DATA[512];
+	float DATA[1];
 	uint8_t tail[4];
 
 
