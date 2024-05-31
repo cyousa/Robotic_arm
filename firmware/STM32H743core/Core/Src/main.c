@@ -191,7 +191,7 @@ int main(void)
 				LCD_ShowIntNum(10,80,buf[0] ,6,WHITE,BLACK,32);
 			}
 	}
-	my_data.DATA[0]=hsd2.SdCard.BlockNbr;
+	my_data.DATA[0]=123456;
 	
   /* USER CODE END 2 */
 
