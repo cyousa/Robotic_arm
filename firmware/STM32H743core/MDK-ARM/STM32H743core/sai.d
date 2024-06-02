@@ -52,4 +52,5 @@ stm32h743core/sai.o: ..\Core\Src\sai.c ..\Core\Inc\sai.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_usb.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h \
   ..\Core\Inc\st7789.h D:\keil\ARM\ARMCLANG\Bin\..\include\stdbool.h \
-  ..\Core\Inc\lcd.h ..\Core\Inc\sdram.h ..\Core\Inc\sdctr.h
+  ..\Core\Inc\lcd.h ..\Core\Inc\sdram.h ..\Core\Inc\sdctr.h \
+  ..\Core\Inc\ov5640.h

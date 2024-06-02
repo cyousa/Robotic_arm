@@ -35,6 +35,7 @@ extern "C" {
 #include "lcd.h"
 #include "sdram.h"
 #include "sdctr.h"
+#include "ov5640.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -42,14 +43,14 @@ extern "C" {
 extern SPI_HandleTypeDef hspi6;
 extern TIM_HandleTypeDef htim6;
 extern SDRAM_HandleTypeDef hsdram1;
-
+extern uint16_t LCD_RAM[28900];
 struct send_data{
-	float DATA[1];
+	uint16_t DATA[8];
 	uint8_t tail[4];
 
 
 };
-
+extern struct send_data my_data;
 
 /* USER CODE END ET */
 
@@ -79,6 +80,10 @@ void Error_Handler(void);
 #define LCD_CS_GPIO_Port GPIOC
 #define LCD_RST_Pin GPIO_PIN_15
 #define LCD_RST_GPIO_Port GPIOC
+#define DCMI_RST_Pin GPIO_PIN_6
+#define DCMI_RST_GPIO_Port GPIOH
+#define DCMI_PWDN_Pin GPIO_PIN_7
+#define DCMI_PWDN_GPIO_Port GPIOH
 #define RGB3_Pin GPIO_PIN_11
 #define RGB3_GPIO_Port GPIOD
 #define RGB2_Pin GPIO_PIN_3
@@ -91,6 +96,10 @@ void Error_Handler(void);
 #define KEY2_GPIO_Port GPIOI
 #define KEY3_Pin GPIO_PIN_1
 #define KEY3_GPIO_Port GPIOI
+#define SCCB_SCL_Pin GPIO_PIN_6
+#define SCCB_SCL_GPIO_Port GPIOB
+#define SCCB_SDA_Pin GPIO_PIN_7
+#define SCCB_SDA_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 #define LCD_CS_H HAL_GPIO_WritePin(GPIOC, LCD_CS_Pin, 1);

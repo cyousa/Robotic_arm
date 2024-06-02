@@ -60,5 +60,6 @@ stm32h743core/usbd_ctlreq.o: \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h \
   ..\Core\Inc\st7789.h D:\keil\ARM\ARMCLANG\Bin\..\include\stdbool.h \
   ..\Core\Inc\lcd.h ..\Core\Inc\sdram.h ..\Core\Inc\sdctr.h \
+  ..\Core\Inc\ov5640.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ioreq.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_core.h

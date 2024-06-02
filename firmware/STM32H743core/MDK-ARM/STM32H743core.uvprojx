@@ -416,6 +416,11 @@
               <FilePath>..\Core\Src\sdctr.c</FilePath>
             </File>
             <File>
+              <FileName>ov5640.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\ov5640.c</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/main.c</FilePath>

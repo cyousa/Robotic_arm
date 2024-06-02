@@ -1,10 +1,5 @@
-stm32h743core/usbd_core.o: \
-  ..\Middlewares\ST\STM32_USB_Device_Library\Core\Src\usbd_core.c \
-  ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_core.h \
-  ..\USB_DEVICE\Target\usbd_conf.h \
-  D:\keil\ARM\ARMCLANG\Bin\..\include\stdio.h \
-  D:\keil\ARM\ARMCLANG\Bin\..\include\stdlib.h \
-  D:\keil\ARM\ARMCLANG\Bin\..\include\string.h ..\Core\Inc\main.h \
+stm32h743core/ov5640cofig.o: ..\Core\Src\ov5640cofig.c \
+  ..\Core\Inc\ov5640cofig.h ..\Core\Inc\main.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
   ..\Core\Inc\stm32h7xx_hal_conf.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_rcc.h \
@@ -59,7 +54,4 @@ stm32h743core/usbd_core.o: \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h \
   ..\Core\Inc\st7789.h D:\keil\ARM\ARMCLANG\Bin\..\include\stdbool.h \
   ..\Core\Inc\lcd.h ..\Core\Inc\sdram.h ..\Core\Inc\sdctr.h \
-  ..\Core\Inc\ov5640.h \
-  ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_def.h \
-  ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ioreq.h \
-  ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ctlreq.h
+  ..\Core\Inc\ov5640.h

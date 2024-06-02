@@ -128,9 +128,9 @@ void HAL_DCMI_MspInit(DCMI_HandleTypeDef* dcmiHandle)
     hdma_dcmi.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
     hdma_dcmi.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
     hdma_dcmi.Init.Mode = DMA_CIRCULAR;
-    hdma_dcmi.Init.Priority = DMA_PRIORITY_LOW;
+    hdma_dcmi.Init.Priority = DMA_PRIORITY_VERY_HIGH;
     hdma_dcmi.Init.FIFOMode = DMA_FIFOMODE_ENABLE;
-    hdma_dcmi.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+    hdma_dcmi.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_HALFFULL;
     hdma_dcmi.Init.MemBurst = DMA_MBURST_SINGLE;
     hdma_dcmi.Init.PeriphBurst = DMA_PBURST_SINGLE;
     if (HAL_DMA_Init(&hdma_dcmi) != HAL_OK)
@@ -144,7 +144,7 @@ void HAL_DCMI_MspInit(DCMI_HandleTypeDef* dcmiHandle)
     HAL_NVIC_SetPriority(DCMI_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(DCMI_IRQn);
   /* USER CODE BEGIN DCMI_MspInit 1 */
-
+		
   /* USER CODE END DCMI_MspInit 1 */
   }
 }

@@ -56,7 +56,7 @@ stm32h743core/ff.o: ..\Middlewares\Third_Party\FatFs\src\ff.c \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h \
   ..\Core\Inc\st7789.h D:\keil\ARM\ARMCLANG\Bin\..\include\stdbool.h \
   ..\Core\Inc\lcd.h ..\Core\Inc\sdram.h ..\Core\Inc\sdctr.h \
-  ..\FATFS\Target\bsp_driver_sd.h \
+  ..\Core\Inc\ov5640.h ..\FATFS\Target\bsp_driver_sd.h \
   D:\keil\ARM\ARMCLANG\Bin\..\include\stdlib.h \
   ..\Middlewares\Third_Party\FatFs\src\diskio.h \
   D:\keil\ARM\ARMCLANG\Bin\..\include\stdarg.h

@@ -58,6 +58,7 @@ stm32h743core/usbd_conf.o: ..\USB_DEVICE\Target\usbd_conf.c \
   D:\keil\ARM\ARMCLANG\Bin\..\include\string.h ..\Core\Inc\main.h \
   ..\Core\Inc\st7789.h D:\keil\ARM\ARMCLANG\Bin\..\include\stdbool.h \
   ..\Core\Inc\lcd.h ..\Core\Inc\sdram.h ..\Core\Inc\sdctr.h \
+  ..\Core\Inc\ov5640.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_core.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ioreq.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ctlreq.h \

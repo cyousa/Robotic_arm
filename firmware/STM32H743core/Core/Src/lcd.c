@@ -548,11 +548,11 @@ void LCD_ShowPicture(uint16_t x,uint16_t y,uint16_t length,uint16_t width,const 
 	{
 		for(j=0;j<width;j++)
 		{
-			LCD_WR_DATA8(pic[k*2]);
 			LCD_WR_DATA8(pic[k*2+1]);
+			LCD_WR_DATA8(pic[k*2]);
 			k++;
 		}
 	}			
 }
 
-
+//172,320,172,320

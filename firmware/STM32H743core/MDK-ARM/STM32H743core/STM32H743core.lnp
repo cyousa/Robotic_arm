@@ -4,6 +4,7 @@
 "stm32h743core\lcd.o"
 "stm32h743core\sdram.o"
 "stm32h743core\sdctr.o"
+"stm32h743core\ov5640.o"
 "stm32h743core\main.o"
 "stm32h743core\gpio.o"
 "stm32h743core\dcmi.o"
