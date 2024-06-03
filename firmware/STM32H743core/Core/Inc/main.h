@@ -44,12 +44,14 @@ extern SPI_HandleTypeDef hspi6;
 extern TIM_HandleTypeDef htim6;
 extern SDRAM_HandleTypeDef hsdram1;
 extern uint16_t LCD_RAM[28900];
+
 struct send_data{
-	uint16_t DATA[8];
+	uint16_t DATA[170];
 	uint8_t tail[4];
 
 
 };
+extern bool usb_data_flag;
 extern struct send_data my_data;
 
 /* USER CODE END ET */

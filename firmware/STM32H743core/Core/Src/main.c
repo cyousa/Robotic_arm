@@ -54,6 +54,7 @@ uint16_t LCD_RAM[28900]__attribute__((section(".bss.ARM.__at_0XC0000000")));
 /* USER CODE BEGIN PM */
 extern uint8_t CDC_Transmit_FS(uint8_t* Buf, uint16_t Len);
 struct send_data my_data;
+ bool usb_data_flag=0;
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -104,7 +105,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)//
 void HAL_DCMI_FrameEventCallback(DCMI_HandleTypeDef *hdcmi)
 {
 
-		LCD_ShowPicture(0,0,170,170,(uint8_t *)LCD_RAM);
+		LCD_ShowPicture(0,0,170,170,LCD_RAM);
+
 		__HAL_DCMI_ENABLE_IT(hdcmi,DCMI_IT_FRAME);
 
 }
@@ -184,10 +186,11 @@ int main(void)
 	ov5640_Init();
 	
 	SDRAM_initialization_sequence();//SDRAM初始化序列
-	HAL_SDRAM_ProgramRefreshRate(&hsdram1,1543);//隔1880个计数值进行刷新SDRAM，防止SDRAM数据丢失
+	HAL_SDRAM_ProgramRefreshRate(&hsdram1,1500);//隔1880个计数值进行刷新SDRAM，防止SDRAM数据丢失
 	
 	//LCD_ShowPicture(0,0,270,270,(uint8_t *)LCD_RAM);
- 	__HAL_DMA_ENABLE(&hdma_dcmi);
+
+	__HAL_DCMI_ENABLE_IT(&hdcmi, DCMI_IT_FRAME);
 	 DCMI->CR |=DCMI_CR_CAPTURE;
 //	uint16_t sdram_data;		
 //	*(__IO uint16_t *)(SDRAM_BASE_ADDR + 0x100) = 399;
@@ -206,7 +209,7 @@ int main(void)
 			//	LCD_ShowIntNum(10,80,buf[0] ,6,WHITE,BLACK,32);
 			}
 	}
-	__HAL_DCMI_ENABLE_IT(&hdcmi, DCMI_IT_FRAME); 
+	
 			
    HAL_DCMI_Start_DMA(&hdcmi,DCMI_MODE_CONTINUOUS,(uint32_t)LCD_RAM,14450);
 		// LCD_ShowPicture(0,0,80,40,(uint8_t *)LCD_RAM);//172,320,172,320
@@ -219,10 +222,9 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+		
     /* USER CODE BEGIN 3 */
-		
-		
+
 		
   }
   /* USER CODE END 3 */

@@ -539,20 +539,38 @@ void LCD_ShowFloatNum1(uint16_t x,uint16_t y,float num,uint8_t len,uint16_t fc,u
                 pic[]  图片数组    
       返回值：  无
 ******************************************************************************/
-void LCD_ShowPicture(uint16_t x,uint16_t y,uint16_t length,uint16_t width,const uint8_t pic[])
+
+void LCD_ShowPicture(uint16_t x,uint16_t y,uint16_t length,uint16_t width,const uint16_t pic[])
 {
 	uint16_t i,j;
 	uint32_t k=0;
+	uint8_t temp_B;
+	uint8_t temp_G;
+	uint8_t temp_R;
+	uint8_t temp=0x20;
+	uint8_t temp_G1;
+	uint8_t temp_G2;
+	uint16_t data_pic;
+	uint16_t temp_pic;
 	LCD_Address_Set(x,y,x+length-1,y+width-1);
 	for(i=0;i<length;i++)
 	{
 		for(j=0;j<width;j++)
 		{
-			LCD_WR_DATA8(pic[k*2+1]);
-			LCD_WR_DATA8(pic[k*2]);
-			k++;
+
+			
+			temp_R = (pic[i*length+j]&0xF800)>>11;
+			temp_G = (pic[i*length+j]&0x07E0)>>5;
+			temp_B =  pic[i*length+j]&0x001F;
+			data_pic= temp_R<<11|temp_G<<5|temp_B;
+			LCD_WR_DATA(data_pic);
+
 		}
-	}			
+		
+	}
+	usb_data_flag=1;
+
+		
 }
 
 //172,320,172,320

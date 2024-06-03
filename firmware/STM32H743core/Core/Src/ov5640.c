@@ -60,7 +60,7 @@ const uint16_t ov5640_uxga_init_reg_tbl[][2]=
 	0x3004, 0xff, // enable clocks
 	0x300e, 0x58, // MIPI power down, DVP enable
 	0x302e, 0x00,
-	0x4300, 0x30, // YUV 422, YUYV
+	0x4300, 0x6f, // YUV 422, YUYV
 	0x501f, 0x00, // YUV 422
 	0x440e, 0x00,
 	0x5000, 0xa7, // Lenc on, raw gamma on, BPC on, WPC on, CIP on
@@ -227,7 +227,7 @@ const uint16_t ov5640_uxga_init_reg_tbl[][2]=
 //最大支持1280*800的RGB565图像输出
  const uint16_t ov5640_rgb565_reg_tbl[][2]=
 {
-	0x4300, 0X6F,
+	0x4300, 0X6f,
 	0X501F, 0x01,
 	// 1280x800, 15fps
 	// input clock 24Mhz, PCLK 42Mhz
@@ -715,7 +715,7 @@ void ov5640_Init()
 	HAL_Delay(10);
 	
 	reg|=OV5640_RD_Reg(OV5640_CHIPIDL);	//读取ID 低八位
-	LCD_ShowIntNum(10,200,reg,3,WHITE,BLACK,32);
+	
 
 	 	//初始化 OV5640,采用SXGA分辨率(1600*1200)  
 	for(i=0;i<sizeof(ov5640_uxga_init_reg_tbl)/4;i++)
@@ -726,12 +726,12 @@ void ov5640_Init()
   
 	OV5640_RGB565_Mode();
 	OV5640_Focus_Init();
-//	OV5640_Light_Mode(4);	//自动模式
-//	OV5640_Color_Saturation(3);//色彩饱和度0
-//	OV5640_Brightness(4);	//亮度0
+	OV5640_Light_Mode(3);	//自动模式
+	OV5640_Color_Saturation(6);//色彩饱和度0
+	OV5640_Brightness(4);	//亮度0
 	OV5640_Contrast(3);		//对比度0
-//	OV5640_Sharpness(33);	//自动锐度
-//	OV5640_Focus_Constant();//启动持续对焦
+	OV5640_Sharpness(33);	//自动锐度
+	OV5640_Focus_Constant();//启动持续对焦
 	OV5640_OutSize_Set(16,4,170,170);
 
 }
