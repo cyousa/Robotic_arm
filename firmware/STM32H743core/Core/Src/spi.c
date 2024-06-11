@@ -135,7 +135,7 @@ void MX_SPI6_Init(void)
   hspi6.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi6.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
   hspi6.Init.CRCPolynomial = 0x0;
-  hspi6.Init.NSSPMode = SPI_NSS_PULSE_DISABLE;
+  hspi6.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
   hspi6.Init.NSSPolarity = SPI_NSS_POLARITY_LOW;
   hspi6.Init.FifoThreshold = SPI_FIFO_THRESHOLD_01DATA;
   hspi6.Init.TxCRCInitializationPattern = SPI_CRC_INITIALIZATION_ALL_ZERO_PATTERN;
@@ -269,8 +269,14 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
     GPIO_InitStruct.Alternate = GPIO_AF5_SPI6;
     HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
+    /* SPI6 interrupt Init */
+    HAL_NVIC_SetPriority(SPI6_IRQn, 3, 0);
+    HAL_NVIC_EnableIRQ(SPI6_IRQn);
   /* USER CODE BEGIN SPI6_MspInit 1 */
+	BDMA_Channel0->CCR|=0xF;
+	BDMA_Channel1->CCR|=0xF;
 
+	
   /* USER CODE END SPI6_MspInit 1 */
   }
 }
@@ -333,6 +339,8 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
     */
     HAL_GPIO_DeInit(GPIOG, GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14);
 
+    /* SPI6 interrupt Deinit */
+    HAL_NVIC_DisableIRQ(SPI6_IRQn);
   /* USER CODE BEGIN SPI6_MspDeInit 1 */
 
   /* USER CODE END SPI6_MspDeInit 1 */

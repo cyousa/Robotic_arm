@@ -41,7 +41,7 @@
 /* USER CODE BEGIN PTD */
 uint16_t LCD_RAM[28900]__attribute__((section(".bss.ARM.__at_0XC0000000")));
 
-
+uint8_t LCD_RAM1[57800]__attribute__((section(".bss.ARM.__at_0XC000E200")));
 //uint32_t jpeg_data_buf[30][30] __attribute__((section(".bss.ARM.__at_0XC0000000")));//SDRAM中的数据
 /* USER CODE END PTD */
 
@@ -72,40 +72,22 @@ void PeriphCommonClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-bool rgb=0;
+uint8_t show_frames=0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)// 
 {   
 	if(htim == &htim3)  //判断中断是否来自于定时器1
    {
-			//__HAL_TIM_CLEAR_FLAG(&htim6,TIM_FLAG_UPDATE);
 
-		
-		 if(rgb==1)
-		 {
-		//	LCD_Fill(50,50,100,100,31);
-			// LCD_DrawRectangle(0,0,172,320,31);
-		 }
-		 else
-		 {
-		 // LCD_Fill(50,50,50,50,0XF800);
-		 // LCD_DrawRectangle(50,50,100,100,31);
-		 }
 		__HAL_TIM_CLEAR_IT(&htim3, TIM_IT_UPDATE);
-		 
+		 show_frames=1;
    }
-//	 else if(htim == &htim6)  //判断中断是否来自于定时器1
-//   {
-//		rgb=!rgb;
-//		HAL_GPIO_WritePin(RGB3_GPIO_Port,RGB3_Pin,rgb);
-//		HAL_GPIO_WritePin(GPIOG, RGB2_Pin, rgb);
-//		HAL_GPIO_WritePin(GPIOG, RGB1_Pin, 0);
-//	 }
+
 }
 
 void HAL_DCMI_FrameEventCallback(DCMI_HandleTypeDef *hdcmi)
 {
 
-		LCD_ShowPicture(0,0,170,170,LCD_RAM);
+		LCD_ShowPicture(0,0,170,170,(uint8_t *)LCD_RAM);
 
 		__HAL_DCMI_ENABLE_IT(hdcmi,DCMI_IT_FRAME);
 
@@ -159,7 +141,6 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_DCMI_Init();
   MX_FMC_Init();
   MX_FDCAN1_Init();
   MX_I2C2_Init();
@@ -173,8 +154,9 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM6_Init();
   MX_USB_DEVICE_Init();
-  MX_FATFS_Init();
+  MX_DCMI_Init();
   MX_I2C4_Init();
+  MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
 	
   __HAL_TIM_CLEAR_IT(&htim3, TIM_IT_UPDATE);
@@ -182,16 +164,17 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim6);
 	RCC->CFGR|=2<<22;//开启时钟引脚PA7输出HSE外部高速时钟 25MHZ
 	LCD_Init();
-	LCD_Fill(0,0,172,320,WHITE);//0XF800,0X7E0
+	LCD_Fill(0,0,320,172,BLUE);//0XF800,0X7E0
 	ov5640_Init();
 	
 	SDRAM_initialization_sequence();//SDRAM初始化序列
 	HAL_SDRAM_ProgramRefreshRate(&hsdram1,1500);//隔1880个计数值进行刷新SDRAM，防止SDRAM数据丢失
 	
-	//LCD_ShowPicture(0,0,270,270,(uint8_t *)LCD_RAM);
-
+	
 	__HAL_DCMI_ENABLE_IT(&hdcmi, DCMI_IT_FRAME);
 	 DCMI->CR |=DCMI_CR_CAPTURE;
+	 
+	 HAL_DCMI_Start_DMA(&hdcmi,DCMI_MODE_CONTINUOUS,(uint32_t)LCD_RAM,14450);
 //	uint16_t sdram_data;		
 //	*(__IO uint16_t *)(SDRAM_BASE_ADDR + 0x100) = 399;
 //	sdram_data = *(uint16_t *)(SDRAM_BASE_ADDR + 0x100) ;
@@ -210,9 +193,7 @@ int main(void)
 			}
 	}
 	
-			
-   HAL_DCMI_Start_DMA(&hdcmi,DCMI_MODE_CONTINUOUS,(uint32_t)LCD_RAM,14450);
-		// LCD_ShowPicture(0,0,80,40,(uint8_t *)LCD_RAM);//172,320,172,320
+		
 	
 
   /* USER CODE END 2 */
@@ -222,7 +203,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-		
+
     /* USER CODE BEGIN 3 */
 
 		

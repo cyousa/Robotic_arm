@@ -44,7 +44,7 @@ extern SPI_HandleTypeDef hspi6;
 extern TIM_HandleTypeDef htim6;
 extern SDRAM_HandleTypeDef hsdram1;
 extern uint16_t LCD_RAM[28900];
-
+extern uint8_t LCD_RAM1[57800];
 struct send_data{
 	uint16_t DATA[170];
 	uint8_t tail[4];
@@ -53,7 +53,7 @@ struct send_data{
 };
 extern bool usb_data_flag;
 extern struct send_data my_data;
-
+extern uint8_t show_frames;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/

@@ -58,6 +58,7 @@
 extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
 extern DMA_HandleTypeDef hdma_dcmi;
 extern DCMI_HandleTypeDef hdcmi;
+extern SPI_HandleTypeDef hspi6;
 extern TIM_HandleTypeDef htim3;
 /* USER CODE BEGIN EV */
 
@@ -241,6 +242,20 @@ void DCMI_IRQHandler(void)
   /* USER CODE BEGIN DCMI_IRQn 1 */
 
   /* USER CODE END DCMI_IRQn 1 */
+}
+
+/**
+  * @brief This function handles SPI6 global interrupt.
+  */
+void SPI6_IRQHandler(void)
+{
+  /* USER CODE BEGIN SPI6_IRQn 0 */
+
+  /* USER CODE END SPI6_IRQn 0 */
+  HAL_SPI_IRQHandler(&hspi6);
+  /* USER CODE BEGIN SPI6_IRQn 1 */
+
+  /* USER CODE END SPI6_IRQn 1 */
 }
 
 /**

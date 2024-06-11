@@ -36,13 +36,21 @@ uint8_t lcd_buf[LCD_Buf_Size];
 void LCD_Writ_Bus(uint8_t *dat,uint16_t size) 
 {	
 	 LCD_CS_L;
-	if(HAL_SPI_Transmit(&hspi6,dat,size,1000)!= HAL_OK)
+
+	if(HAL_SPI_Transmit(&hspi6, dat, size,1000)!= HAL_OK)
 	{
 		Error_Handler();
 	}
 	LCD_CS_H;
 
 }
+
+ uint8_t one_frame_done=0;
+void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
+{
+	one_frame_done = 1;
+}
+
 void LCD_WR_DATA8(uint8_t dat)//发送数据
 {
 	LCD_DC_H
@@ -64,11 +72,11 @@ void LCD_Address_Set(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2)//设置屏
 {
 	
 		LCD_WR_REG(0x2a);//列地址设置
-		LCD_WR_DATA(x1+34);
-		LCD_WR_DATA(x2+34);
+		LCD_WR_DATA(x1);
+		LCD_WR_DATA(x2);
 		LCD_WR_REG(0x2b);//行地址设置
-		LCD_WR_DATA(y1);
-		LCD_WR_DATA(y2);
+		LCD_WR_DATA(y1+35);
+		LCD_WR_DATA(y2+35);
 		LCD_WR_REG(0x2C);//储存器写
 	
 	
@@ -139,7 +147,7 @@ void LCD_Init(void)
 	HAL_Delay(120);              //Delay 120ms 
 	//************* Start Initial Sequence **********// 
 	LCD_WR_REG(0x36);
-  LCD_WR_DATA8(0x00);
+  LCD_WR_DATA8(0x70);
 	
 	LCD_WR_REG(0x3A);     
 	LCD_WR_DATA8(0x05);   

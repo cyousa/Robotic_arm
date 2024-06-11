@@ -1,4 +1,5 @@
 #include "ov5640.h"
+uint8_t frames=0;
 //OV5640 UXGA初始化寄存器序列表 
 const uint16_t ov5640_uxga_init_reg_tbl[][2]= 
 {   
@@ -242,8 +243,8 @@ const uint16_t ov5640_uxga_init_reg_tbl[][2]=
 	0x3801, 0x00, // HS
 	0x3802, 0x00, // VS
 	0x3803, 0x00, // VS
-	0x3804, 0x0a, // HW (HE)
-	0x3805, 0x3f, // HW (HE)
+	0x3804, 0x06, // HW (HE)
+	0x3805, 0xa9, // HW (HE)
 	0x3806, 0x06, // VH (VE)
 	0x3807, 0xa9, // VH (VE)
 	0x3808, 0x05, // DVPHO
@@ -726,13 +727,14 @@ void ov5640_Init()
   
 	OV5640_RGB565_Mode();
 	OV5640_Focus_Init();
-	OV5640_Light_Mode(3);	//自动模式
-	OV5640_Color_Saturation(6);//色彩饱和度0
-	OV5640_Brightness(4);	//亮度0
+	OV5640_Light_Mode(4);	//自动模式
+	OV5640_Color_Saturation(3);//色彩饱和度0
+	OV5640_Brightness(8);	//亮度0
 	OV5640_Contrast(3);		//对比度0
-	OV5640_Sharpness(33);	//自动锐度
+	OV5640_Sharpness(10);	//自动锐度
 	OV5640_Focus_Constant();//启动持续对焦
-	OV5640_OutSize_Set(16,4,170,170);
+	OV5640_OutSize_Set(0,0,170,170);
+	ov5640_get_output_size();
 
 }
 
@@ -980,7 +982,7 @@ uint8_t OV5640_Focus_Constant(void)
     
     x_output_size = (uint16_t)((reg3808 & 0x0F) << 8) | reg3809;
     y_output_size = (uint16_t)((reg380A & 0x07) << 8) | reg380B;
-    LCD_ShowIntNum(10,230,x_output_size,6,WHITE,BLACK,32);
-		LCD_ShowIntNum(10,260,y_output_size,6,WHITE,BLACK,32);
+//    LCD_ShowIntNum(180,0,x_output_size,6,WHITE,BLACK,32);
+//		LCD_ShowIntNum(180,50,y_output_size,6,WHITE,BLACK,32);
 
 }

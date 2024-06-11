@@ -1,7 +1,7 @@
 #include "lcd.h"
 #include "st7789.h"
 #include "lcdfont.h"
-
+#include "spi.h"
 
 ///******************************************************************************
 //      函数说明：在指定区域填充颜色
@@ -540,33 +540,32 @@ void LCD_ShowFloatNum1(uint16_t x,uint16_t y,float num,uint8_t len,uint16_t fc,u
       返回值：  无
 ******************************************************************************/
 
-void LCD_ShowPicture(uint16_t x,uint16_t y,uint16_t length,uint16_t width,const uint16_t pic[])
+void LCD_ShowPicture(uint16_t x,uint16_t y,uint16_t length,uint16_t width, uint8_t *pic)
 {
 	uint16_t i,j;
 	uint32_t k=0;
-	uint8_t temp_B;
-	uint8_t temp_G;
-	uint8_t temp_R;
-	uint8_t temp=0x20;
-	uint8_t temp_G1;
-	uint8_t temp_G2;
-	uint16_t data_pic;
-	uint16_t temp_pic;
+
 	LCD_Address_Set(x,y,x+length-1,y+width-1);
-	for(i=0;i<length;i++)
+	for(i=0;i<57800;i+=2)
 	{
-		for(j=0;j<width;j++)
-		{
 
-			
-			temp_R = (pic[i*length+j]&0xF800)>>11;
-			temp_G = (pic[i*length+j]&0x07E0)>>5;
-			temp_B =  pic[i*length+j]&0x001F;
-			data_pic= temp_R<<11|temp_G<<5|temp_B;
-			LCD_WR_DATA(data_pic);
-
-		}
+			if(i+1<57800)
+			{			
+				LCD_RAM1[i+1]=pic[i];
+				LCD_RAM1[i]=pic[i+1];//高低位互换位置
 		
+		  }	
+		
+	}
+	LCD_DC_H;
+	LCD_CS_L;
+	HAL_SPI_Transmit(&hspi6, LCD_RAM1, 57800,10000);
+	frames++;
+	if(show_frames==1)
+	{
+		LCD_ShowIntNum(180,0,frames,3,WHITE,BLACK,32);
+		frames=0;
+		show_frames=0;
 	}
 	usb_data_flag=1;
 

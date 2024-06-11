@@ -33,4 +33,6 @@ void ov5640_get_output_size(void);
 uint8_t	OV5640_Focus_Constant();//启动持续对焦
 uint8_t OV5640_OutSize_Set(uint16_t offx,uint16_t offy,uint16_t width,uint16_t height);
 
+extern uint8_t frames;
+
 #endif

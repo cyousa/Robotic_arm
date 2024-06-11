@@ -13,4 +13,5 @@ void LCD_Fill(uint16_t xsta,uint16_t ysta,uint16_t xend,uint16_t yend,uint16_t c
 void LCD_WR_REG(uint8_t dat);//发送命令
 void LCD_WR_DATA(uint16_t dat);//发送16位数据
 void LCD_WR_DATA8(uint8_t dat);//发送数据
+extern uint8_t one_frame_done;
 #endif /* RP2040_MOUSE_ST7789_ */
